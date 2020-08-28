@@ -1,2 +1,2 @@
 ---
-config_path: '/etc/patroni/config.yml'
+patroni::config_path: '/etc/patroni/config.yml'
