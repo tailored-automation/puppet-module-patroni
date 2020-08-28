@@ -1,2 +1,2 @@
 ---
-pgsql_data_dir: '/var/lib/postgresql/9.6/patroni'
+patroni::pgsql_data_dir: '/var/lib/postgresql/9.6/patroni'
