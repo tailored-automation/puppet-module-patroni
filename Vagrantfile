@@ -38,20 +38,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     p.vm.hostname = 'patroni1.example.com'
     p.vm.network :private_network, ip: '10.0.0.1'
     p.vm.provision :shell, path:"tests/provision_basic_el.sh"
-    p.vm.provision :shell, inline: 'puppet apply /vagrant/tests/patroni.pp'
+    p.vm.provision :shell, inline: 'puppet apply /vagrant/examples/patroni.pp'
   end
   config.vm.define "patroni2", primary: true, autostart: true do |p|
     p.vm.box = "centos/7"
     p.vm.hostname = 'patroni2.example.com'
     p.vm.network :private_network, ip: '10.0.0.2'
     p.vm.provision :shell, :path => "tests/provision_basic_el.sh"
-    p.vm.provision :shell, inline: 'puppet apply /vagrant/tests/patroni.pp'
+    p.vm.provision :shell, inline: 'puppet apply /vagrant/examples/patroni.pp'
   end
   config.vm.define "patroni3", primary: true, autostart: true do |p|
     p.vm.box = "centos/7"
     p.vm.hostname = 'patroni3.example.com'
     p.vm.network :private_network, ip: '10.0.0.3'
     p.vm.provision :shell, :path => "tests/provision_basic_el.sh"
-    p.vm.provision :shell, inline: 'puppet apply /vagrant/tests/patroni.pp'
+    p.vm.provision :shell, inline: 'puppet apply /vagrant/examples/patroni.pp'
   end
 end
