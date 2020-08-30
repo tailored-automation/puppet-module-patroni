@@ -1,3 +1,0 @@
----
-patroni::pgsql_data_dir: '/var/lib/postgresql/9.4/patroni'
-patroni::python_venv_version: '3.4'

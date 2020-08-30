@@ -286,7 +286,6 @@ class patroni (
   Array[String] $pgsql_pg_hba = [],
   Integer $pgsql_pg_ctl_timeout = 60,
   Boolean $pgsql_use_pg_rewind = true,
-  Boolean $hiera_merge_pgsql_parameters = false,
   Boolean $pgsql_remove_data_directory_on_rewind_failure = false,
   Array[Hash] $pgsql_replica_method = [],
 
@@ -383,16 +382,27 @@ class patroni (
       }
     }
     ensure_packages($install_dependencies, {'before' => Python::Pip['patroni']})
-    exec { "/bin/mkdir -p ${install_dir}":
+    exec { 'patroni-mkdir-install_dir':
+      command => "/bin/mkdir -p ${install_dir}",
       creates => $install_dir,
-      before  => Python::Virtualenv['patroni'],
     }
-    python::virtualenv { 'patroni':
-      version    => $python_venv_version,
-      venv_dir   => $install_dir,
-      virtualenv => 'virtualenv-3',
-      systempkgs => true,
-      distribute => false,
+    if $facts['os']['family'] == 'RedHat' {
+      python::virtualenv { 'patroni':
+        version    => $python_venv_version,
+        venv_dir   => $install_dir,
+        virtualenv => 'virtualenv-3',
+        systempkgs => true,
+        distribute => false,
+        require    => Exec['patroni-mkdir-install_dir'],
+      }
+    }
+    if $facts['os']['family'] == 'Debian' {
+      python::pyvenv { 'patroni':
+        version    => $python_venv_version,
+        venv_dir   => $install_dir,
+        systempkgs => true,
+        require    => Exec['patroni-mkdir-install_dir'],
+      }
     }
     python::pip { 'patroni':
       ensure     => $version,
@@ -441,7 +451,7 @@ class patroni (
   }
 
   if $install_method == 'pip' {
-    systemd::unit_file { 'patroni.service':
+    systemd::unit_file { "${service_name}.service":
       content => template('patroni/patroni.service.erb'),
       notify  => Service['patroni'],
     }
