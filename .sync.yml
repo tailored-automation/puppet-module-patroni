@@ -11,10 +11,6 @@
       collection: puppet5
     - set: centos-8
       collection: puppet6
-    - set: debian-8
-      collection: puppet5
-    - set: debian-8
-      collection: puppet6
     - set: debian-9
       collection: puppet5
     - set: debian-9
@@ -42,7 +38,7 @@ spec/acceptance/nodesets/ubuntu-1604.yml:
 spec/acceptance/nodesets/ubuntu-1804.yml:
   delete: true
 spec/acceptance/nodesets/debian-8.yml:
-  manage: false
+  delete: true
 spec/acceptance/nodesets/debian-9.yml:
   manage: false
 spec/acceptance/nodesets/debian-10.yml:

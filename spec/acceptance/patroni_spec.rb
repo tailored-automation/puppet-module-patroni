@@ -30,7 +30,8 @@ describe 'patroni class:' do
       }
       include postgresql::params
       package { [$postgresql::params::server_package_name, $postgresql::params::contrib_package_name]:
-        ensure => present,
+        ensure  => present,
+        require => Class['postgresql::repo'],
       }
 
       class { 'patroni':
@@ -67,11 +68,11 @@ describe 'patroni class:' do
       apply_manifest_on(patroni2, pp, catch_changes: true)
     end
 
-    describe port(8008), :node => patroni1 do
-      it { should be_listening }
+    describe port(8008), node: patroni1 do
+      it { is_expected.to be_listening }
     end
-    describe port(8008), :node => patroni2 do
-      it { should be_listening }
+    describe port(8008), node: patroni2 do
+      it { is_expected.to be_listening }
     end
     describe service('patroni'), node: patroni1 do
       it { is_expected.to be_enabled }
