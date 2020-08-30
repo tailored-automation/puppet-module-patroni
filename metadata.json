@@ -11,6 +11,14 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 6.4.0 < 7.0.0"
+    },
+    {
+      "name": "puppet/python",
+      "version_requirement": ">= 4.0.0 <5.0.0"
+    },
+    {
+      "name": "camptocamp/systemd",
+      "version_requirement": ">= 2.0.0 <3.0.0"
     }
   ],
   "operatingsystem_support": [

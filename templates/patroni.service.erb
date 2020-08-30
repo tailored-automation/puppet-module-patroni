@@ -1,0 +1,30 @@
+[Unit]
+Description=PostgreSQL high-availability manager
+After=syslog.target
+After=network-online.target
+
+[Service]
+Type=simple
+
+User=postgres
+Group=postgres
+
+# Location of Patroni configuration
+Environment=PATRONI_CONFIG_LOCATION=<%= @config_path %>
+
+# Disable OOM kill on the postmaster
+OOMScoreAdjust=-1000
+
+ExecStart=<%= @install_dir %>/bin/patroni ${PATRONI_CONFIG_LOCATION}
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Give a reasonable amount of time for the server to start up/shut down
+TimeoutSec=30
+TimeoutStopSec=120s
+
+# only kill the patroni process, not it's children, so it will gracefully stop postgres
+KillSignal=SIGINT
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

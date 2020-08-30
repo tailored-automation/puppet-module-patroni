@@ -1,7 +1,9 @@
 HOSTS:
-  centos-7:
+  patroni1:
     roles:
       - agent
+      - default
+      - patroni1
     platform: el-7-x86_64
     hypervisor: docker
     image: centos:7
@@ -10,7 +12,20 @@ HOSTS:
       - '/usr/sbin/init'
     docker_image_commands:
       - 'yum install -y wget which cronie iproute initscripts'
-    docker_container_name: 'patroni-el7'
+    docker_container_name: 'patroni1-el7'
+  patroni2:
+    roles:
+      - agent
+      - patroni2
+    platform: el-7-x86_64
+    hypervisor: docker
+    image: centos:7
+    docker_preserve_image: true
+    docker_cmd:
+      - '/usr/sbin/init'
+    docker_image_commands:
+      - 'yum install -y wget which cronie iproute initscripts'
+    docker_container_name: 'patroni2-el7'
 CONFIG:
   log_level: debug
   type: foss

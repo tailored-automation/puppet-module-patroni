@@ -1,2 +1,7 @@
 ---
 patroni::config_path: '/opt/app/patroni/etc/postgresql.yml'
+patroni::install_dependencies:
+  - gcc
+  - python3-psycopg2
+patroni::python_class_version: '36'
+patroni::python_venv_version: '3.6'
