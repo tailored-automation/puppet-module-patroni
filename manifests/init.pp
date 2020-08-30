@@ -126,26 +126,79 @@ class patroni (
   Integer $watchdog_safety_margin = 5,
 
   # Module Specific Settings
-  String $servicename = 'patroni',
-  String $packagename = 'patroni',
-  Optional[String[1]] $package_provider = undef,
+  String $package_name = 'patroni',
+  String $version = 'present',
+  Array $install_dependencies = [],
+  Boolean $manage_python = true,
+  Enum['package','pip'] $install_method = 'pip',
+  Stdlib::Absolutepath $install_dir = '/opt/app/patroni',
+  String $python_class_version = '36',
+  String $python_venv_version = '3.6',
   String $config_path = '/opt/app/patroni/etc/postgresql.yml',
-  String $config_owner = 'root',
-  String $config_group = 'root',
-  String $config_mode = '0644',
-  String $ensure_package = 'installed',
-  String $ensure_service = 'running',
-  Boolean $enable_service = true,
-  Boolean $restart_service = false,
-  Optional[String[1]] $restart_service_command = undef,
+  String $config_owner = 'postgres',
+  String $config_group = 'postgres',
+  String $config_mode = '0600',
+  String $service_name = 'patroni',
+  String $service_ensure = 'running',
+  Boolean $service_enable = true,
 ) {
 
-  package { 'patroni':
-    ensure   => $ensure_package,
-    name     => $packagename,
-    provider => $package_provider,
+  if $install_method == 'pip' {
+    if $manage_python {
+      class { 'python':
+        version    => $python_class_version,
+        dev        => 'present',
+        virtualenv => 'present',
+      }
+    }
+    ensure_packages($install_dependencies, {'before' => Python::Pip['patroni']})
+    exec { "/bin/mkdir -p ${install_dir}":
+      creates => $install_dir,
+      before  => Python::Virtualenv['patroni'],
+    }
+    python::virtualenv { 'patroni':
+      version    => $python_venv_version,
+      venv_dir   => $install_dir,
+      virtualenv => 'virtualenv-3',
+      systempkgs => true,
+      distribute => false,
+    }
+    python::pip { 'patroni':
+      ensure     => $version,
+      virtualenv => $install_dir,
+      before     => File['patroni_config'],
+    }
+    $dependency_params = {
+      'virtualenv' => $install_dir,
+      'before'     => Python::Pip['patroni'],
+    }
+    python::pip { 'psycopg2': * => $dependency_params }
+    if $use_consul {
+      python::pip { 'python-consul': * => $dependency_params }
+    }
+    if $use_etcd {
+      python::pip { 'python-etcd': * => $dependency_params }
+    }
+    if $use_exhibitor or $use_zookeeper {
+      python::pip { 'kazoo': * => $dependency_params }
+    }
+  } else {
+    package { 'patroni':
+      ensure => $version,
+      name   => $package_name,
+      before => File['patroni_config'],
+    }
   }
 
+  if $install_method == 'pip' {
+    $config_dir = dirname($config_path)
+    file { $config_dir:
+      ensure => 'directory',
+      owner  => 'postgres',
+      group  => 'postgres',
+      mode   => '0755',
+    }
+  }
   file { 'patroni_config':
     ensure  => 'file',
     path    => $config_path,
@@ -153,14 +206,25 @@ class patroni (
     group   => $config_group,
     mode    => $config_mode,
     content => template('patroni/postgresql.yml.erb'),
-    require => Package['patroni'],
     notify  => Service['patroni'],
   }
 
+  if $install_method == 'pip' {
+    systemd::unit_file { 'patroni.service':
+      content => template('patroni/patroni.service.erb'),
+      notify  => Service['patroni'],
+    }
+
+    if versioncmp($facts['puppetversion'],'6.1.0') < 0 {
+      # Puppet 5 does not execute 'systemctl daemon-reload' automatically (https://tickets.puppetlabs.com/browse/PUP-3483)
+      # and camptocamp/systemd only creates this relationship when managing the service
+      Class['systemd::systemctl::daemon_reload'] -> Service['patroni']
+    }
+  }
+
   service { 'patroni':
-    ensure  => $ensure_service,
-    name    => $servicename,
-    enable  => $enable_service,
-    restart => $restart_service_command,
+    ensure => $service_ensure,
+    name   => $service_name,
+    enable => $service_enable,
   }
 }
