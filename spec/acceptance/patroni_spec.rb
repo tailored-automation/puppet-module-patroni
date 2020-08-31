@@ -22,25 +22,11 @@ describe 'patroni class:' do
       }
       EOS
       pp = <<-EOS
-      class { 'postgresql::globals':
-        encoding            => 'UTF-8',
-        locale              => 'en_US.UTF-8',
-        manage_package_repo => true,
-      }
-      include postgresql::params
-      package { [$postgresql::params::server_package_name, $postgresql::params::contrib_package_name]:
-        ensure  => present,
-        require => Class['postgresql::repo'],
-      }
-
       class { 'patroni':
         scope                   => 'cluster',
         use_etcd                => true,
         pgsql_connect_address   => "${facts['networking']['fqdn']}:5432",
         restapi_connect_address => "${facts['networking']['fqdn']}:8008",
-        pgsql_bin_dir           => $postgresql::params::bindir,
-        pgsql_data_dir          => $postgresql::params::datadir,
-        pgsql_pgpass_path       => '/var/lib/pgsql/pgpass',
         pgsql_parameters        => {
           'max_connections' => 5000,
         },
@@ -56,6 +42,8 @@ describe 'patroni class:' do
         ],
         superuser_username      => 'postgres',
         superuser_password      => 'postgrespassword',
+        replication_username    => 'repl',
+        replication_password    => 'replpassword',
       }
       EOS
       apply_manifest_on(patroni1, etcd)
