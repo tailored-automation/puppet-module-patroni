@@ -13,7 +13,7 @@ HOSTS:
     docker_image_commands:
       - 'yum install -y dnf-utils'
       - 'dnf config-manager --set-enabled PowerTools'
-      - 'yum install -y wget which cronie iproute initscripts'
+      - 'yum install -y wget which cronie iproute initscripts langpacks-en glibc-all-langpacks'
     docker_container_name: 'patroni1-el8'
   patroni2:
     roles:
@@ -28,7 +28,7 @@ HOSTS:
     docker_image_commands:
       - 'yum install -y dnf-utils'
       - 'dnf config-manager --set-enabled PowerTools'
-      - 'yum install -y wget which cronie iproute initscripts'
+      - 'yum install -y wget which cronie iproute initscripts langpacks-en glibc-all-langpacks'
     docker_container_name: 'patroni2-el8'
 CONFIG:
   log_level: debug
