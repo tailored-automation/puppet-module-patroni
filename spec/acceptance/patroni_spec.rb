@@ -26,7 +26,6 @@ describe 'patroni class:' do
         encoding            => 'UTF-8',
         locale              => 'en_US.UTF-8',
         manage_package_repo => true,
-        version             => '9.6',
       }
       include postgresql::params
       package { [$postgresql::params::server_package_name, $postgresql::params::contrib_package_name]:
