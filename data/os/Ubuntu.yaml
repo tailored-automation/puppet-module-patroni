@@ -1,0 +1,6 @@
+---
+patroni::config_path: '/etc/patroni/config.yml'
+patroni::install_dependencies:
+  - gcc
+  - python3-psycopg2
+patroni::python_class_version: '3'

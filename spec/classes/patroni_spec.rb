@@ -15,6 +15,10 @@ describe 'patroni' do
         'operatingsystem'        => 'Debian',
         'operatingsystemrelease' => ['9', '10'],
       },
+      {
+        'operatingsystem'        => 'Ubuntu',
+        'operatingsystemrelease' => ['18.04'],
+      },
     ],
   }
 
