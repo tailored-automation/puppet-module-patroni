@@ -6,6 +6,13 @@ fixtures:
     stdlib:
       repo: https://github.com/puppetlabs/puppetlabs-stdlib.git
       ref: v6.0.0
+    postgresql:
+      repo: https://github.com/puppetlabs/puppetlabs-postgresql.git
+      ref: v6.4.0
+    # Needed by Postgresql module
+    apt:
+      repo: https://github.com/puppetlabs/puppetlabs-apt.git
+      ref: v7.5.0
     python:
       repo: https://github.com/voxpupuli/puppet-python.git
       ref: v4.0.0

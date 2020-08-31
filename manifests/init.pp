@@ -198,6 +198,10 @@
 #   Refer to Watchdog configuration `device` setting
 # @param watchdog_safety_margin
 #   Refer to Watchdog configuration `safety_margin` setting
+# @param manage_postgresql
+#   Boolean to determine if postgresql is managed
+# @param postgresql_version
+#   Version of postgresql passed to postgresql::globals class
 # @param package_name
 #   Patroni package name, only used when `install_method` is `package`
 # @param version
@@ -274,9 +278,9 @@ class patroni (
   Variant[Undef,String] $callback_on_stop = undef,
   String $pgsql_connect_address = "${facts['networking']['fqdn']}:5432",
   Array[String] $pgsql_create_replica_methods = ['basebackup'],
-  Stdlib::Unixpath $pgsql_data_dir = '/var/lib/pgsql/data',
+  Optional[Stdlib::Unixpath] $pgsql_data_dir = undef,
   Variant[Undef,String] $pgsql_config_dir = undef,
-  Variant[Undef,String] $pgsql_bin_dir = '',
+  Variant[Undef,String] $pgsql_bin_dir = undef,
   String $pgsql_listen = '0.0.0.0:5432',
   Boolean $pgsql_use_unix_socket = false,
   String $pgsql_pgpass_path = '/tmp/pgpass0',
@@ -356,6 +360,8 @@ class patroni (
   Integer $watchdog_safety_margin = 5,
 
   # Module Specific Settings
+  Boolean $manage_postgresql = true,
+  Optional[String] $postgresql_version = undef,
   String $package_name = 'patroni',
   String $version = 'present',
   Array $install_dependencies = [],
@@ -372,6 +378,35 @@ class patroni (
   String $service_ensure = 'running',
   Boolean $service_enable = true,
 ) {
+
+  if $manage_postgresql {
+    class { 'postgresql::globals':
+      encoding            => 'UTF-8',
+      locale              => 'en_US.UTF-8',
+      manage_package_repo => true,
+    }
+    include postgresql::params
+    $default_data_dir = $postgresql::params::datadir
+    $default_bin_dir = $postgresql::params::bindir
+    package { $postgresql::params::server_package_name:
+      ensure  => present,
+      require => Class['postgresql::repo'],
+      before  => Service['patroni'],
+    }
+    exec { 'patroni-clear-datadir':
+      path        => '/usr/bin:/bin',
+      command     => "/bin/rm -rf ${default_data_dir}",
+      refreshonly => true,
+      subscribe   => Package[$postgresql::params::server_package_name],
+      before      => Service['patroni'],
+    }
+  } else {
+    $default_data_dir = '/var/lib/patroni'
+    $default_bin_dir = ''
+  }
+
+  $_pgsql_data_dir = pick($pgsql_data_dir, $default_data_dir)
+  $_pgsql_bin_dir = pick($pgsql_bin_dir, $default_bin_dir)
 
   if $install_method == 'pip' {
     if $manage_python {

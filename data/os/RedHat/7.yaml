@@ -1,4 +1,4 @@
 ---
-patroni::pgsql_data_dir: '/var/lib/pgsql/9.2/data'
+patroni::postgresql_version: '9.6'
 patroni::python_class_version: '36'
 patroni::python_venv_version: '3.6'
