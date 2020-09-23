@@ -1,12 +1,12 @@
 {
-  "name": "jadestorm-patroni",
+  "name": "tailoredautomation-patroni",
   "version": "1.0.0",
-  "author": "jadestorm",
+  "author": "tailoredautomation",
   "summary": "Install and manages Patroni for high-availability PostgreSQL",
   "license": "Apache-2.0",
-  "source": "https://github.com/jadestorm/puppet-patroni",
-  "project_page": "https://github.com/jadestorm/puppet-patroni",
-  "issues_url": "https://github.com/jadestorm/puppet-patroni/issues",
+  "source": "https://github.com/tailored-automation/puppet-patroni",
+  "project_page": "https://github.com/tailored-automation/puppet-patroni",
+  "issues_url": "https://github.com/tailored-automation/puppet-patroni/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
@@ -68,7 +68,7 @@
     "cluster",
     "ha"
   ],
-  "pdk-version": "1.13.0",
+  "pdk-version": "1.18.1",
   "template-url": "https://github.com/tailored-automation/pdk-templates.git#master",
   "template-ref": "heads/master-0-g952cfd1"
 }
