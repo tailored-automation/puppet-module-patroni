@@ -1,13 +1,6 @@
 
 # patroni
 
-[![Build Status](https://travis-ci.org/jadestorm/puppet-patroni.png?branch=master)](https://travis-ci.org/jadestorm/puppet-patroni)
-[![Code Coverage](https://coveralls.io/repos/github/jadestorm/puppet-patroni/badge.svg?branch=master)](https://coveralls.io/github/jadestorm/puppet-patroni?branch=master)
-[![Puppet Forge](https://img.shields.io/puppetforge/v/jadestorm/patroni.svg)](https://forge.puppetlabs.com/jadestorm/patroni)
-[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/jadestorm/patroni.svg)](https://forge.puppetlabs.com/jadestorm/patroni)
-[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/jadestorm/patroni.svg)](https://forge.puppetlabs.com/jadestorm/patroni)
-[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/jadestorm/patroni.svg)](https://forge.puppetlabs.com/jadestorm/patroni)
-
 ## Table of Contents
 
 1. [Description](#description)
@@ -19,6 +12,7 @@
 4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
+7. [License](#license)
 
 ## Description
 
@@ -28,8 +22,9 @@ HA with PostgreSQL, so please take a look at the myriad of other options to make
 that is right for your environment.
 
 This module alone is not enough to run a fully HA and replicated service.  Please read up on your options
-at [Patroni's GitHub Project](https://github.com/zalando/patroni).  In our case, we use haproxy, using [puppetlabs's haproxxy module](https://forge.puppet.com/puppetlabs/haproxy), and etcd, using [cristifalcas's etcd module](https://forge.puppet.com/cristifalcas/etcd).
+at [Patroni's GitHub Project](https://github.com/zalando/patroni).  In our case, we use haproxy, using [puppetlabs's haproxxy module](https://forge.puppet.com/puppetlabs/haproxy), and etcd, using [Tailored Automation's etcd module](https://forge.puppet.com/tailoredautomation/etcd).
 
+This module was originally written by [Jadestorm](https://github.com/jadestorm/). Thank you!!! 
 ## Setup
 
 ### What patroni affects
@@ -51,14 +46,14 @@ get the package from [here](https://github.com/cybertec-postgresql/patroni-packa
 You will also need to get PostgreSQL itself installed yourself.  Patroni handles starting PostgreSQL on it's own,
 but you need to get the software installed.  One pretty easy recommendation I have is to simply pull in
 [puppetlab's postgresql module](https://forge.puppet.com/puppetlabs/postgresql) and make use of the
-::postgresql::globals class.  We will demonstrate a very simple recipe for that below.
+`postgresql::globals` class.  We will demonstrate a very simple manifest for that below.
 
 ### Beginning with patroni
 
 A bare minimum configuration might be:
 
 ```puppet
-class { '::patroni':
+class { 'patroni':
   scope => 'mycluster',
 }
 ```
@@ -80,13 +75,13 @@ This assumes you have taken care of all of the rest of the components needed for
 If you want to use PostgreSQL's own repositories, you could do something like:
 
 ```puppet
-class { '::postgresql::globals':
+class { 'postgresql::globals':
   manage_package_repo => true,
 }
 package { 'postgresql96-server':
   ensure => present,
 }
-class { '::patroni':
+class { 'patroni':
   scope => 'mycluster',
 }
 ```
@@ -96,7 +91,7 @@ A much more fleshed out example might be something like:
 ```puppet
 # First PostgreSQL server
 node pg1 {
-  class { '::etcd':
+  class { 'etcd':
     etcd_name                   => ${::hostname},
     listen_client_urls          => 'http://0.0.0.0:2379',
     advertise_client_urls       => "http://${::fqdn}:2379",
@@ -110,7 +105,7 @@ node pg1 {
     initial_cluster_state       => 'existing',
   }
 
-  class { '::postgresql::globals':
+  class { 'postgresql::globals':
     encoding            => 'UTF-8',
     locale              => 'en_US.UTF-8',
     manage_package_repo => true,
@@ -120,7 +115,7 @@ node pg1 {
     ensure => present,
   }
 
-  class { '::patroni':
+  class { 'patroni':
     scope                   => 'mycluster',
     use_etcd                => true,
     pgsql_connect_address   => "${::fqdn}:5432",
@@ -143,7 +138,7 @@ node pg1 {
 }
 # Second PostgreSQL server
 node pg2 {
-  class { '::etcd':
+  class { 'etcd':
     etcd_name                   => ${::hostname},
     listen_client_urls          => 'http://0.0.0.0:2379',
     advertise_client_urls       => "http://${::fqdn}:2379",
@@ -157,7 +152,7 @@ node pg2 {
     initial_cluster_state       => 'existing',
   }
 
-  class { '::postgresql::globals':
+  class { 'postgresql::globals':
     encoding            => 'UTF-8',
     locale              => 'en_US.UTF-8',
     manage_package_repo => true,
@@ -167,7 +162,7 @@ node pg2 {
     ensure => present,
   }
 
-  class { '::patroni':
+  class { 'patroni':
     scope                   => 'mycluster',
     use_etcd                => true,
     pgsql_connect_address   => "${::fqdn}:5432",
@@ -190,7 +185,7 @@ node pg2 {
 }
 # Simple etcd arbitrator node, meaning it serves no content of it's own, just helps keep quorum
 node pgarb {
-  class { '::etcd':
+  class { 'etcd':
     etcd_name                   => ${::hostname},
     listen_client_urls          => 'http://0.0.0.0:2379',
     advertise_client_urls       => "http://${::fqdn}:2379",
@@ -212,11 +207,6 @@ All of the Patroni settings I could find in the [Patroni Settings Documentation]
 However, I do not have experience with the bulk of those settings, so implementing them here was done
 as a best guess.
 
-At some point all of the options will be documented here, but in the meantime, you can look at the
-[init.pp](https://github.com/jadestorm/puppet-patroni/blob/master/manifests/init.pp) for the module to
-see what all settings it accepts.  I hope to improve the documentation at some point, but wanted to get
-this out there if others need it.
-
 I also highly recommend checking out
 [PostgreSQL High Availability Cookbook](https://www.amazon.com/PostgreSQL-High-Availability-Cookbook-Second/dp/178712553X)
 as it is a fantastic resource for wrapping your head around all of the options and has a great walkthrough
@@ -224,13 +214,14 @@ for setting up Patroni.
 
 ## Limitations
 
-This is currently only supported on RedHat Enterprise Linux 7 based systems.  I would love to
+This is currently only supported on RedHat Enterprise Linux 7 based systems. I would love to
 see support on other distributions and even OS's, so if you are interested in contributing please
 do so!
 
 ## Development
 
-If you are interested in helping with development, please submit pull requests against
-[https://github.com/jadestorm/puppet-patroni](https://github.com/jadestorm/puppet-patroni).
-While Debian is not supported currently, I would absolutely welcome someone putting in the work to
-add that support.  (I simply have no need of it)
+See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## License
+
+See [LICENSE](LICENSE) file.
