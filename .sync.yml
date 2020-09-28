@@ -33,6 +33,8 @@ Gemfile:
   optional:
     ':development':
       - gem: coveralls
+Rakefile:
+  changelog_user: tailored-automation
 spec/acceptance/nodesets/centos-6.yml:
   delete: true
 spec/acceptance/nodesets/centos-7.yml:
