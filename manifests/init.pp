@@ -389,8 +389,9 @@ class patroni (
     include postgresql::params
     $default_data_dir = $postgresql::params::datadir
     $default_bin_dir = $postgresql::params::bindir
-    package { $postgresql::params::server_package_name:
+    package { 'patroni-postgresql-package':
       ensure  => present,
+      name    => $postgresql::params::server_package_name,
       require => Class['postgresql::repo'],
       before  => Service['patroni'],
     }
@@ -398,7 +399,7 @@ class patroni (
       path        => '/usr/bin:/bin',
       command     => "/bin/rm -rf ${default_data_dir}",
       refreshonly => true,
-      subscribe   => Package[$postgresql::params::server_package_name],
+      subscribe   => Package['patroni-postgresql-package'],
       before      => Service['patroni'],
     }
   } else {
