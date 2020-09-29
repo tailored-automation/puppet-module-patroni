@@ -31,22 +31,19 @@ This module was originally written by [Jadestorm](https://github.com/jadestorm/)
 
 The patroni module sets up the following:
 
-* Installs Patroni via package manager
+* Install necessary PostgreSQL packages
+* Installs Patroni via Pip or package
 * Sets up a systemd based service for Patroni
-* Manages Patroni's configuration at /etc/patroni
+* Manages Patroni's configuration
 
 ### Setup Requirements
 
 It is very important that you read up on [how Patroni works](https://github.com/zalando/patroni), as you will
 also need a variety of other components to accomplish anything useful with Patroni.
 
-You also need to make sure the patroni package is available somewhere.  For RPM based systems, you can
+If not installing via Pip and setting `$install_method => 'package'`,
+you also need to make sure the patroni package is available somewhere.  For RPM based systems, you can
 get the package from [here](https://github.com/cybertec-postgresql/patroni-packaging/releases).
-
-You will also need to get PostgreSQL itself installed yourself.  Patroni handles starting PostgreSQL on it's own,
-but you need to get the software installed.  One pretty easy recommendation I have is to simply pull in
-[puppetlab's postgresql module](https://forge.puppet.com/puppetlabs/postgresql) and make use of the
-`postgresql::globals` class.  We will demonstrate a very simple manifest for that below.
 
 ### Beginning with patroni
 
@@ -72,21 +69,7 @@ This assumes you have taken care of all of the rest of the components needed for
 
 ## Usage
 
-If you want to use PostgreSQL's own repositories, you could do something like:
-
-```puppet
-class { 'postgresql::globals':
-  manage_package_repo => true,
-}
-package { 'postgresql96-server':
-  ensure => present,
-}
-class { 'patroni':
-  scope => 'mycluster',
-}
-```
-
-A much more fleshed out example might be something like:
+Below is a full example:
 
 ```puppet
 # First PostgreSQL server
@@ -103,16 +86,6 @@ node pg1 {
       'pg2=http://pg2.example.org:2380',
     ],
     initial_cluster_state       => 'existing',
-  }
-
-  class { 'postgresql::globals':
-    encoding            => 'UTF-8',
-    locale              => 'en_US.UTF-8',
-    manage_package_repo => true,
-    version             => '9.6',
-  }
-  package { ['postgresql96-server','postgresql96-contrib']:
-    ensure => present,
   }
 
   class { 'patroni':
@@ -150,16 +123,6 @@ node pg2 {
       'pg2=http://pg2.example.org:2380',
     ],
     initial_cluster_state       => 'existing',
-  }
-
-  class { 'postgresql::globals':
-    encoding            => 'UTF-8',
-    locale              => 'en_US.UTF-8',
-    manage_package_repo => true,
-    version             => '9.6',
-  }
-  package { ['postgresql96-server','postgresql96-contrib']:
-    ensure => present,
   }
 
   class { 'patroni':
@@ -214,9 +177,7 @@ for setting up Patroni.
 
 ## Limitations
 
-This is currently only supported on RedHat Enterprise Linux 7 based systems. I would love to
-see support on other distributions and even OS's, so if you are interested in contributing please
-do so!
+This module is currently only supported on RHEL and Debian based operating systems that support Systemd.
 
 ## Development
 
