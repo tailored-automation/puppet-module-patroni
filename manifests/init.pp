@@ -384,6 +384,7 @@ class patroni (
       encoding            => 'UTF-8',
       locale              => 'en_US.UTF-8',
       manage_package_repo => true,
+      version             => $postgresql_version,
     }
     include postgresql::params
     $default_data_dir = $postgresql::params::datadir
