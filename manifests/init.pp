@@ -425,30 +425,34 @@ class patroni (
     }
     if $facts['os']['family'] == 'RedHat' {
       python::virtualenv { 'patroni':
-        version    => $python_venv_version,
-        venv_dir   => $install_dir,
-        virtualenv => 'virtualenv-3',
-        systempkgs => true,
-        distribute => false,
-        require    => Exec['patroni-mkdir-install_dir'],
+        version     => $python_venv_version,
+        venv_dir    => $install_dir,
+        virtualenv  => 'virtualenv-3',
+        systempkgs  => true,
+        distribute  => false,
+        environment => ["PIP_PREFIX=${install_dir}"],
+        require     => Exec['patroni-mkdir-install_dir'],
       }
     }
     if $facts['os']['family'] == 'Debian' {
       python::pyvenv { 'patroni':
-        version    => $python_venv_version,
-        venv_dir   => $install_dir,
-        systempkgs => true,
-        require    => Exec['patroni-mkdir-install_dir'],
+        version     => $python_venv_version,
+        venv_dir    => $install_dir,
+        systempkgs  => true,
+        environment => ["PIP_PREFIX=${install_dir}"],
+        require     => Exec['patroni-mkdir-install_dir'],
       }
     }
     python::pip { 'patroni':
-      ensure     => $version,
-      virtualenv => $install_dir,
-      before     => File['patroni_config'],
+      ensure      => $version,
+      virtualenv  => $install_dir,
+      environment => ["PIP_PREFIX=${install_dir}"],
+      before      => File['patroni_config'],
     }
     $dependency_params = {
-      'virtualenv' => $install_dir,
-      'before'     => Python::Pip['patroni'],
+      'virtualenv'  => $install_dir,
+      'before'      => Python::Pip['patroni'],
+      'environment' => ["PIP_PREFIX=${install_dir}"],
     }
     python::pip { 'psycopg2': * => $dependency_params }
     if $use_consul {
