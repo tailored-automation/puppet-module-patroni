@@ -1,5 +1,17 @@
 .travis.yml:
   dist: xenial
+  extras:
+    - env: CHECK="parallel_spec" PUPPET_GEM_VERSION="~> 5" FIXTURES_YML=".fixtures-latest.yml"
+      rvm: 2.4.9
+      stage: spec
+    - env: CHECK="parallel_spec" PUPPET_GEM_VERSION="~> 6" FIXTURES_YML=".fixtures-latest.yml"
+      rvm: 2.5.7
+      stage: spec
+  allow_failures:
+    - env: CHECK="parallel_spec" PUPPET_GEM_VERSION="~> 5" FIXTURES_YML=".fixtures-latest.yml"
+      rvm: 2.4.9
+    - env: CHECK="parallel_spec" PUPPET_GEM_VERSION="~> 6" FIXTURES_YML=".fixtures-latest.yml"
+      rvm: 2.5.7
   docker_defaults:
     dist: xenial
   docker_sets:
