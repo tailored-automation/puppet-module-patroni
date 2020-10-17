@@ -65,7 +65,9 @@ postgresql:
   listen: <%= @pgsql_listen %>
   connect_address: <%= @pgsql_connect_address %>
   data_dir: <%= @_pgsql_data_dir %>
+<% if @_pgsql_bin_dir %>
   bin_dir: <%= @_pgsql_bin_dir %>
+<% end %>
 <% if @pgsql_config_dir != nil -%>
   config_dir: <%= @pgsql_config_dir %>
 <% end -%>
