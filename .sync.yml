@@ -45,6 +45,7 @@ Gemfile:
   optional:
     ':development':
       - gem: coveralls
+      - gem: codecov
 Rakefile:
   changelog_user: tailored-automation
 spec/acceptance/nodesets/centos-6.yml:

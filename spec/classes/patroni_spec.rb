@@ -28,6 +28,8 @@ describe 'patroni' do
       let(:params) { { 'scope' => 'testscope' } }
 
       it { is_expected.to compile }
+
+      it { is_expected.to contain_package('patroni-postgresql-package').with_ensure('present') }
     end
   end
 end
