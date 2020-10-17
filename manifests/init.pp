@@ -404,7 +404,7 @@ class patroni (
     }
   } else {
     $default_data_dir = '/var/lib/patroni'
-    $default_bin_dir = ''
+    $default_bin_dir = false
   }
 
   $_pgsql_data_dir = pick($pgsql_data_dir, $default_data_dir)
@@ -474,8 +474,9 @@ class patroni (
 
   if $install_method == 'pip' {
     $config_dir = dirname($config_path)
-    file { $config_dir:
+    file { 'patroni_config_dir':
       ensure => 'directory',
+      path   => $config_dir,
       owner  => 'postgres',
       group  => 'postgres',
       mode   => '0755',
