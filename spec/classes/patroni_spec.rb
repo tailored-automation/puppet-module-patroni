@@ -265,12 +265,6 @@ describe 'patroni' do
         expect(content.split("\n").reject { |l| l =~ %r{(^$|^#)} }).to eq(expected_lines)
       end
 
-      if Puppet.version.to_s =~ %r{^5}
-        it { is_expected.to contain_class('systemd::systemctl::daemon_reload').that_comes_before('Service[patroni]') }
-      else
-        it { is_expected.not_to contain_class('systemd::systemctl::daemon_reload').that_comes_before('Service[patroni]') }
-      end
-
       it do
         is_expected.to contain_service('patroni').with(
           ensure: 'running',

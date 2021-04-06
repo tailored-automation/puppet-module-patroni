@@ -24,7 +24,8 @@ that is right for your environment.
 This module alone is not enough to run a fully HA and replicated service.  Please read up on your options
 at [Patroni's GitHub Project](https://github.com/zalando/patroni).  In our case, we use haproxy, using [puppetlabs's haproxxy module](https://forge.puppet.com/puppetlabs/haproxy), and etcd, using [Tailored Automation's etcd module](https://forge.puppet.com/tailoredautomation/etcd).
 
-This module was originally written by [Jadestorm](https://github.com/jadestorm/). Thank you!!! 
+This module was originally written by [Jadestorm](https://github.com/jadestorm/). Thank you!!!
+
 ## Setup
 
 ### What patroni affects
