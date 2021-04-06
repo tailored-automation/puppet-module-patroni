@@ -94,6 +94,8 @@
 #   Refer to PostgreSQL configuration settings `remove_data_directory_on_rewind_failure` setting
 # @param pgsql_replica_method
 #   Refer to PostgreSQL configuration settings `replica_method` setting
+# @param manage_postgresql_repo
+#   Should the postgresql module manage the package repo
 # @param use_consul
 #   Boolean to use Consul for configuration storage
 # @param consul_host
@@ -292,6 +294,7 @@ class patroni (
   Boolean $pgsql_use_pg_rewind = true,
   Boolean $pgsql_remove_data_directory_on_rewind_failure = false,
   Array[Hash] $pgsql_replica_method = [],
+  Boolean $manage_postgresql_repo = true,
 
   # Consul Settings
   Boolean $use_consul = false,
@@ -378,23 +381,32 @@ class patroni (
   String $service_ensure = 'running',
   Boolean $service_enable = true,
 ) {
-
   if $manage_postgresql {
     class { 'postgresql::globals':
       encoding            => 'UTF-8',
       locale              => 'en_US.UTF-8',
-      manage_package_repo => true,
+      manage_package_repo => $manage_postgresql_repo,
       version             => $postgresql_version,
     }
+
     include postgresql::params
+
     $default_data_dir = $postgresql::params::datadir
     $default_bin_dir = $postgresql::params::bindir
+
+    if $manage_postgresql_repo == true {
+      $postgres_repo_require = 'Class[Postgresql::Repo]'
+    } else {
+      $postgres_repo_require = undef
+    }
+
     package { 'patroni-postgresql-package':
       ensure  => present,
       name    => $postgresql::params::server_package_name,
-      require => Class['postgresql::repo'],
+      require => $postgres_repo_require,
       before  => Service['patroni'],
     }
+
     exec { 'patroni-clear-datadir':
       path        => '/usr/bin:/bin',
       command     => "/bin/rm -rf ${default_data_dir}",
@@ -418,11 +430,14 @@ class patroni (
         virtualenv => 'present',
       }
     }
-    ensure_packages($install_dependencies, {'before' => Python::Pip['patroni']})
+
+    ensure_packages($install_dependencies, { 'before' => Python::Pip['patroni'] })
+
     exec { 'patroni-mkdir-install_dir':
       command => "/bin/mkdir -p ${install_dir}",
       creates => $install_dir,
     }
+
     if $facts['os']['family'] == 'RedHat' {
       python::virtualenv { 'patroni':
         version     => $python_venv_version,
@@ -434,6 +449,7 @@ class patroni (
         require     => Exec['patroni-mkdir-install_dir'],
       }
     }
+
     if $facts['os']['family'] == 'Debian' {
       python::pyvenv { 'patroni':
         version     => $python_venv_version,
@@ -443,24 +459,30 @@ class patroni (
         require     => Exec['patroni-mkdir-install_dir'],
       }
     }
+
     python::pip { 'patroni':
       ensure      => $version,
       virtualenv  => $install_dir,
       environment => ["PIP_PREFIX=${install_dir}"],
       before      => File['patroni_config'],
     }
+
     $dependency_params = {
       'virtualenv'  => $install_dir,
       'before'      => Python::Pip['patroni'],
       'environment' => ["PIP_PREFIX=${install_dir}"],
     }
+
     python::pip { 'psycopg2': * => $dependency_params }
+
     if $use_consul {
       python::pip { 'python-consul': * => $dependency_params }
     }
+
     if $use_etcd {
       python::pip { 'python-etcd': * => $dependency_params }
     }
+
     if $use_exhibitor or $use_zookeeper {
       python::pip { 'kazoo': * => $dependency_params }
     }
@@ -482,6 +504,7 @@ class patroni (
       mode   => '0755',
     }
   }
+
   file { 'patroni_config':
     ensure  => 'file',
     path    => $config_path,

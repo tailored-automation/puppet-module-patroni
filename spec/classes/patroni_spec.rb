@@ -320,6 +320,23 @@ describe 'patroni' do
         end
       end
 
+      context 'manage_postgresql_repo => false' do
+        let(:params) { { 'scope' => 'testscope', 'manage_postgresql_repo' => false } }
+
+        it { is_expected.to compile.with_all_deps }
+
+        it do
+          is_expected.to contain_class('postgresql::globals').with(
+            manage_package_repo: false,
+          )
+        end
+        it do
+          is_expected.to contain_package('patroni-postgresql-package').with(
+            require: nil,
+          )
+        end
+      end
+
       context 'install_method => package' do
         let(:params) { { 'scope' => 'testscope', 'install_method' => 'package' } }
 
