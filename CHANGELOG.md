@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v1.3.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v1.3.0) (2021-04-07)
+
+[Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v1.2.0...v1.3.0)
+
+### UNCATEGORIZED PRS; GO LABEL THEM
+
+- Fix acceptance tests [\#14](https://github.com/tailored-automation/puppet-module-patroni/pull/14) ([treydock](https://github.com/treydock))
+- Make managing the postgresql package repo optional [\#12](https://github.com/tailored-automation/puppet-module-patroni/pull/12) ([ghoneycutt](https://github.com/ghoneycutt))
+
 ## [v1.2.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v1.2.0) (2020-10-17)
 
 [Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v1.1.0...v1.2.0)
