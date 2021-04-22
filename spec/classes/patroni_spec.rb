@@ -402,5 +402,29 @@ describe 'patroni' do
         end
       end
     end
+
+    context 'use_custom_virtualenv => true and custom_virtual unspecified (default value)' do
+      let(:params) { { 'scope' => 'testscope', 'use_custom_virtualenv' => true } }
+
+      it { is_expected.to compile.with_all_deps }
+
+      it do
+        is_expected.to contain_python__pip('patroni').with(
+          virtualenv: nil,
+        )
+      end
+    end
+
+    context 'use_custom_virtualenv => true and custom_virtualenv specified (/some/path)' do
+      let(:params) { { 'scope' => 'testscope', 'use_custom_virtualenv' => true, 'custom_virtualenv' => '/some/path' } }
+
+      it { is_expected.to compile.with_all_deps }
+
+      it do
+        is_expected.to contain_python__pip('patroni').with(
+          virtualenv: '/some/path',
+        )
+      end
+    end
   end
 end

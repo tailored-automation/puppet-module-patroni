@@ -236,6 +236,11 @@
 #   Patroni service ensure property
 # @param service_enable
 #   Patroni service enable property
+# @param use_custom_virtualenv
+#   Boolean to determine if custom_virtualenv should be used by the
+#   Python::Pip['patroni'] resource
+# @param custom_virtualenv
+#   Optional virtualenv path used by the Python::Pip['patroni'] resource
 #
 class patroni (
 
@@ -380,6 +385,8 @@ class patroni (
   String $service_name = 'patroni',
   String $service_ensure = 'running',
   Boolean $service_enable = true,
+  Boolean $use_custom_virtualenv = false,
+  Optional[Stdlib::Absolutepath] $custom_virtualenv = undef,
 ) {
   if $manage_postgresql {
     class { 'postgresql::globals':
@@ -460,9 +467,15 @@ class patroni (
       }
     }
 
+    if $use_custom_virtualenv == true {
+      $_virtualenv = $custom_virtualenv
+    } else {
+      $_virtualenv = $install_dir
+    }
+
     python::pip { 'patroni':
       ensure      => $version,
-      virtualenv  => $install_dir,
+      virtualenv  => $_virtualenv,
       environment => ["PIP_PREFIX=${install_dir}"],
       before      => File['patroni_config'],
     }
