@@ -236,7 +236,8 @@
 #   Patroni service ensure property
 # @param service_enable
 #   Patroni service enable property
-#
+# @param custom_pip_provider
+#   Use custom pip path when installing pip packages
 class patroni (
 
   # Global Settings
@@ -380,6 +381,7 @@ class patroni (
   String $service_name = 'patroni',
   String $service_ensure = 'running',
   Boolean $service_enable = true,
+  Optional[String[1]] $custom_pip_provider = undef,
 ) {
   if $manage_postgresql {
     class { 'postgresql::globals':
@@ -460,17 +462,25 @@ class patroni (
       }
     }
 
+    if $custom_pip_provider {
+      $virtualenv = undef
+    } else {
+      $virtualenv = $install_dir
+    }
+
     python::pip { 'patroni':
-      ensure      => $version,
-      virtualenv  => $install_dir,
-      environment => ["PIP_PREFIX=${install_dir}"],
-      before      => File['patroni_config'],
+      ensure       => $version,
+      environment  => ["PIP_PREFIX=${install_dir}"],
+      pip_provider => $custom_pip_provider,
+      virtualenv   => $virtualenv,
+      before       => File['patroni_config'],
     }
 
     $dependency_params = {
-      'virtualenv'  => $install_dir,
-      'before'      => Python::Pip['patroni'],
-      'environment' => ["PIP_PREFIX=${install_dir}"],
+      'before'       => Python::Pip['patroni'],
+      'pip_provider' => $custom_pip_provider,
+      'virtualenv'   => $virtualenv,
+      'environment'  => ["PIP_PREFIX=${install_dir}"],
     }
 
     python::pip { 'psycopg2': * => $dependency_params }
