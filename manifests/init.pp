@@ -236,9 +236,6 @@
 #   Patroni service ensure property
 # @param service_enable
 #   Patroni service enable property
-# @param use_custom_virtualenv
-#   Boolean to determine if custom_virtualenv should be used by the
-#   Python::Pip['patroni'] resource
 # @param custom_virtualenv
 #   Optional virtualenv path used by the Python::Pip['patroni'] resource
 #
@@ -385,7 +382,6 @@ class patroni (
   String $service_name = 'patroni',
   String $service_ensure = 'running',
   Boolean $service_enable = true,
-  Boolean $use_custom_virtualenv = false,
   Optional[Stdlib::Absolutepath] $custom_virtualenv = undef,
 ) {
   if $manage_postgresql {
@@ -445,7 +441,7 @@ class patroni (
       creates => $install_dir,
     }
 
-    if $facts['os']['family'] == 'RedHat' {
+    if $facts['os']['family'] == 'RedHat' and ! $custom_virtualenv {
       python::virtualenv { 'patroni':
         version     => $python_venv_version,
         venv_dir    => $install_dir,
@@ -457,7 +453,7 @@ class patroni (
       }
     }
 
-    if $facts['os']['family'] == 'Debian' {
+    if $facts['os']['family'] == 'Debian' and ! $custom_virtualenv {
       python::pyvenv { 'patroni':
         version     => $python_venv_version,
         venv_dir    => $install_dir,
@@ -467,12 +463,7 @@ class patroni (
       }
     }
 
-    if $use_custom_virtualenv == true {
-      $_virtualenv = $custom_virtualenv
-    } else {
-      $_virtualenv = $install_dir
-    }
-
+    $_virtualenv = pick($custom_virtualenv, $install_dir)
     python::pip { 'patroni':
       ensure      => $version,
       virtualenv  => $_virtualenv,

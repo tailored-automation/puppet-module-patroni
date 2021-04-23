@@ -401,29 +401,20 @@ describe 'patroni' do
           expect(content).to include('ExecStart=/usr/local/patroni/bin/patroni ${PATRONI_CONFIG_LOCATION}')
         end
       end
-    end
 
-    context 'use_custom_virtualenv => true and custom_virtual unspecified (default value)' do
-      let(:params) { { 'scope' => 'testscope', 'use_custom_virtualenv' => true } }
+      context 'custom_virtualenv specified (/some/path)' do
+        let(:params) { { 'scope' => 'testscope', 'custom_virtualenv' => '/some/path' } }
 
-      it { is_expected.to compile.with_all_deps }
+        it { is_expected.to compile.with_all_deps }
 
-      it do
-        is_expected.to contain_python__pip('patroni').with(
-          virtualenv: nil,
+        it { is_expected.not_to contain_python__virtualenv('patroni') }
+        it { is_expected.not_to contain_python__pyvenv('patroni') }
+
+        it do
+          is_expected.to contain_python__pip('patroni').with(
+            virtualenv: '/some/path',
         )
-      end
-    end
-
-    context 'use_custom_virtualenv => true and custom_virtualenv specified (/some/path)' do
-      let(:params) { { 'scope' => 'testscope', 'use_custom_virtualenv' => true, 'custom_virtualenv' => '/some/path' } }
-
-      it { is_expected.to compile.with_all_deps }
-
-      it do
-        is_expected.to contain_python__pip('patroni').with(
-          virtualenv: '/some/path',
-        )
+        end
       end
     end
   end
