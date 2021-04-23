@@ -402,5 +402,29 @@ describe 'patroni' do
         end
       end
     end
+    context 'custom_pip_provider => undef' do
+      let(:params) { { 'scope' => 'testscope' } }
+
+      it { is_expected.to compile.with_all_deps }
+
+      it do
+        is_expected.to contain_python__pip('patroni').with(
+          pip_provider: nil,
+          virtualenv: '/opt/app/patroni',
+        )
+      end
+    end
+    context 'custom_pip_provider => /usr/bin/pip3' do
+      let(:params) { { 'scope' => 'testscope', 'custom_pip_provider' => '/usr/bin/pip3' } }
+
+      it { is_expected.to compile.with_all_deps }
+
+      it do
+        is_expected.to contain_python__pip('patroni').with(
+          pip_provider: '/usr/bin/pip3',
+          virtualenv: nil,
+        )
+      end
+    end
   end
 end
