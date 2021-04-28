@@ -135,6 +135,7 @@ The following parameters are available in the `patroni` class:
 * [`service_name`](#service_name)
 * [`service_ensure`](#service_ensure)
 * [`service_enable`](#service_enable)
+* [`custom_pip_provider`](#custom_pip_provider)
 
 ##### <a name="scope"></a>`scope`
 
@@ -1074,4 +1075,12 @@ Data type: `Boolean`
 Patroni service enable property
 
 Default value: ``true``
+
+##### <a name="custom_pip_provider"></a>`custom_pip_provider`
+
+Data type: `Optional[String[1]]`
+
+Use custom pip path when installing pip packages
+
+Default value: ``undef``
 
