@@ -410,7 +410,7 @@ describe 'patroni' do
         it do
           is_expected.to contain_python__pip('patroni').with(
             pip_provider: '/usr/bin/pip3',
-            virtualenv: nil,
+            virtualenv: 'system',
           )
         end
       end

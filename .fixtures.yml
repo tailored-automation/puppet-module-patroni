@@ -15,7 +15,7 @@ fixtures:
       ref: v7.5.0
     python:
       repo: https://github.com/voxpupuli/puppet-python.git
-      ref: v4.0.0
+      ref: v4.1.0
     # Needed by Python module
     epel:
       repo: https://github.com/voxpupuli/puppet-epel.git
