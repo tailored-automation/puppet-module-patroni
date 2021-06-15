@@ -105,6 +105,7 @@ The following parameters are available in the `patroni` class:
 * [`kubernetes_use_endpoints`](#kubernetes_use_endpoints)
 * [`kubernetes_pod_ip`](#kubernetes_pod_ip)
 * [`kubernetes_ports`](#kubernetes_ports)
+* [`restapi_ciphers`](#restapi_ciphers)
 * [`restapi_connect_address`](#restapi_connect_address)
 * [`restapi_listen`](#restapi_listen)
 * [`restapi_username`](#restapi_username)
@@ -831,6 +832,14 @@ Default value: ``undef``
 Data type: `Variant[Undef,String]`
 
 Refer to Kubernetes configuration `ports` setting
+
+Default value: ``undef``
+
+##### <a name="restapi_ciphers"></a>`restapi_ciphers`
+
+Data type: `Optional[String]`
+
+Refer to REST API configuration `ciphers` setting
 
 Default value: ``undef``
 
