@@ -174,6 +174,8 @@
 #   Refer to Kubernetes configuration `pod_ip` setting
 # @param kubernetes_ports
 #   Refer to Kubernetes configuration `ports` setting
+# @param restapi_ciphers
+#   Refer to REST API configuration `ciphers` setting
 # @param restapi_connect_address
 #   Refer to REST API configuration `connect_address` setting
 # @param restapi_listen
@@ -345,6 +347,7 @@ class patroni (
   Variant[Undef,String] $kubernetes_ports = undef,
 
   # REST API Settings
+  Optional[String] $restapi_ciphers = undef,
   String $restapi_connect_address = "${facts['networking']['fqdn']}:8008",
   String $restapi_listen = '0.0.0.0:8008',
   Variant[Undef,String] $restapi_username = undef,
