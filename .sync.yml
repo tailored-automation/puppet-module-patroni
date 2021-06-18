@@ -1,42 +1,30 @@
+.github/workflows/ci.yaml:
+  unit_name: Puppet ${{ matrix.puppet }} (Ruby ${{ matrix.ruby }} fixtures=${{ matrix.fixtures }})
+  unit_includes:
+    - ruby: '2.4.9'
+      puppet: '5'
+      fixtures: .fixtures.yml
+      allow_failure: false
+    - ruby: '2.5.7'
+      puppet: '6'
+      fixtures: .fixtures-latest.yml
+      allow_failure: true
+    - ruby: '2.7.0'
+      puppet: '7'
+      fixtures: .fixtures-latest.yml
+      allow_failure: true
+  acceptance_matrix:
+    set:
+      - centos-7
+      - centos-8
+      - debian-9
+      - debian-10
+      - ubuntu-1804
+    puppet:
+      - puppet6
+      - puppet7
 .travis.yml:
-  dist: xenial
-  extras:
-    - env: CHECK="parallel_spec" PUPPET_GEM_VERSION="~> 5" FIXTURES_YML=".fixtures-latest.yml"
-      rvm: 2.4.9
-      stage: spec
-    - env: CHECK="parallel_spec" PUPPET_GEM_VERSION="~> 6" FIXTURES_YML=".fixtures-latest.yml"
-      rvm: 2.5.7
-      stage: spec
-  allow_failures:
-    - env: CHECK="parallel_spec" PUPPET_GEM_VERSION="~> 5" FIXTURES_YML=".fixtures-latest.yml"
-      rvm: 2.4.9
-    - env: CHECK="parallel_spec" PUPPET_GEM_VERSION="~> 6" FIXTURES_YML=".fixtures-latest.yml"
-      rvm: 2.5.7
-  docker_defaults:
-    dist: xenial
-  docker_sets:
-    - set: centos-7
-      collection: puppet5
-    - set: centos-7
-      collection: puppet6
-    - set: centos-8
-      collection: puppet5
-    - set: centos-8
-      collection: puppet6
-    - set: debian-9
-      collection: puppet5
-    - set: debian-9
-      collection: puppet6
-    - set: debian-10
-      collection: puppet5
-    - set: debian-10
-      collection: puppet6
-    - set: ubuntu-1804
-      collection: puppet5
-    - set: ubuntu-1804
-      collection: puppet5
-  user: tailoredautomation
-  secure: "x4sufb/wyxHY9ftHqrfqEfNqkzSSFLUZcRLyf/QfmXGrhus0+H9MTcV8wMKFBlp0MbnXnHAl7JZSeZdfCrcDc/l+IfZ42ZR3VIA+SRyhKv3Ads72qEMUKwwybla+tE3yGRc1dNhBc7KiavmFKYhzHQcVOJSbH2dHpntp2ss/LuZ+uUC7bUM8Omeq6t8rqcYo+zxNTGxiQ20zSvmcAP8N1Uysmrj504l/ANwnWCtgAm/hZ5xMbw/Gy25dkLiFlCEXBDp3y7BAP5wIlFoq0W3t6Q1/aPJvj4FKRdTcw6JvQ/v/znXKZrGasQ7avQk645qDbdJ10V3b15XljIRw557HpOOI3NmNwL1csO/tM7S5nvjAfsMf/veLk1DIZoNdmwmXmvfgAmZcOdaxzi4Q+7VK8t56Nk7j8favmkIGn1O+cCoXUTloBmb+GL0djYOQqdlmE4gOJ1qqTt4LTca7xW6EcaM7KuIVBP3IsctajM0gxF1TqRrZgP3KfmMjXYXjOsSlzykowjDc84gUddwg+b1MsKhFegRdpTepVWSHCCT4Z+MaGLD8z0QQx/1HCkFfmOXy0ZvEVZUWdjkRx7H4wmqajqHH+dggs3Y3EL9JRJInDYaLkm4HJhbb/v+g90g4aiSScrOD661Iq8/vV/k+DqSTAnAwDg15rPRig0Rs4E6vmVg="
+  delete: true
 .gitlab-ci.yml:
   delete: true
 appveyor.yml:
