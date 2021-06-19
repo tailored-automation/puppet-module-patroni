@@ -2,19 +2,20 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v1.5.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v1.5.0) (2021-06-15)
+## [v1.5.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v1.5.0) (2021-06-18)
 
 [Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v1.4.0...v1.5.0)
 
-### UNCATEGORIZED PRS; GO LABEL THEM
+### Added
 
+- Add Puppet 7 and use Github Actions [\#22](https://github.com/tailored-automation/puppet-module-patroni/pull/22) ([treydock](https://github.com/treydock))
 - enable support for cipher flag [\#21](https://github.com/tailored-automation/puppet-module-patroni/pull/21) ([mrstrozy](https://github.com/mrstrozy))
 
 ## [v1.4.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v1.4.0) (2021-04-28)
 
 [Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v1.3.0...v1.4.0)
 
-### UNCATEGORIZED PRS; GO LABEL THEM
+### Added
 
 - Add support for specifying a custom pip provider [\#19](https://github.com/tailored-automation/puppet-module-patroni/pull/19) ([ghoneycutt](https://github.com/ghoneycutt))
 
