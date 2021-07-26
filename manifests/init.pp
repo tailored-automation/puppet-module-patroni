@@ -262,6 +262,7 @@ class patroni (
   String[1] $bootstrap_method = 'initdb',
   Boolean $initdb_data_checksums = true,
   String $initdb_encoding = 'UTF8',
+  Variant[Undef,String] $initdb_encryption_command     = undef,
   String $initdb_locale = 'en_US.utf8',
   Array[String] $bootstrap_pg_hba = [
     'host all all 0.0.0.0/0 md5',
