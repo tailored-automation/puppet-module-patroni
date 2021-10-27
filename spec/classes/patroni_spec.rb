@@ -48,6 +48,13 @@ describe 'patroni' do
         )
       end
       it do
+        is_expected.to contain_package('patroni-postgresql-devel-package').with(
+          ensure: 'present',
+          require: 'Class[Postgresql::Repo]',
+          before: ['Service[patroni]', 'Python::Pip[psycopg2]'],
+        )
+      end
+      it do
         is_expected.to contain_exec('patroni-clear-datadir').with(
           path: '/usr/bin:/bin',
           command: "/bin/rm -rf #{platform_data(platform, :data_dir)}",

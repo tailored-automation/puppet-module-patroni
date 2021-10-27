@@ -412,6 +412,16 @@ class patroni (
       before  => Service['patroni'],
     }
 
+    package { 'patroni-postgresql-devel-package':
+      ensure  => present,
+      name    => $postgresql::params::devel_package_name,
+      require => $postgres_repo_require,
+      before  => Service['patroni'],
+    }
+    if $install_method == 'pip' {
+      Package['patroni-postgresql-devel-package'] -> Python::Pip['psycopg2']
+    }
+
     exec { 'patroni-clear-datadir':
       path        => '/usr/bin:/bin',
       command     => "/bin/rm -rf ${default_data_dir}",

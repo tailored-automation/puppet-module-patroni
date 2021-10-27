@@ -14,6 +14,7 @@ def platform_data(p, d)
     'CentOS-8' => {
       data_dir: '/var/lib/pgsql/data',
       bin_dir: '/usr/bin',
+      install_dependencies: ['gcc', 'python3-psycopg2'],
       python_venv_version: '3',
     },
     'Debian-9' => {
@@ -39,7 +40,7 @@ def platform_data(p, d)
     'default' => {
       postgresql_version: nil,
       python_class_version: '3',
-      install_dependencies: ['gcc', 'python3-psycopg2'],
+      install_dependencies: ['gcc'],
       python_venv_version: '3.7',
       config_dir: '/opt/app/patroni/etc',
       config_path: '/opt/app/patroni/etc/postgresql.yml',
