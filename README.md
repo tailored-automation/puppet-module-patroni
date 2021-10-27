@@ -164,6 +164,24 @@ node pgarb {
 }
 ```
 
+It's possible to define [DCS configuration](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) values using Puppet with an example like the following:
+
+```puppet
+include patroni
+
+patroni_dcs_config { 'postgresql.parameters.max_connections':
+  value  => 200,
+  notify => Exec['patroni-restart-pending'],
+}
+
+exec { 'patroni-restart-pending':
+  path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+  command     => "sleep 60 ; ${patroni::patronictl} -c ${patroni::config_path} restart ${patroni::scope} --pending --force",
+  refreshonly => true,
+  require     => Service['patroni'],
+}
+```
+
 ## Reference
 
 All of the Patroni settings I could find in the [Patroni Settings Documentation](https://github.com/zalando/patroni/blob/master/docs/SETTINGS.rst) are mapped to this module.

@@ -279,6 +279,13 @@ describe 'patroni' do
         )
       end
 
+      it do
+        is_expected.to contain_patronictl_config('puppet').with(
+          path: '/opt/app/patroni/bin/patronictl',
+          config: platform_data(platform, :config_path),
+        )
+      end
+
       context 'use_etcd => true' do
         let(:params) { { 'scope' => 'testscope', 'use_etcd' => true } }
 

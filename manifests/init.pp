@@ -546,4 +546,10 @@ class patroni (
     name   => $service_name,
     enable => $service_enable,
   }
+
+  $patronictl = "${install_dir}/bin/patronictl"
+  patronictl_config { 'puppet':
+    path   => $patronictl,
+    config => $config_path,
+  }
 }
