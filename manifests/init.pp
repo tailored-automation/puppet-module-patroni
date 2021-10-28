@@ -96,8 +96,6 @@
 #   Refer to PostgreSQL configuration settings `replica_method` setting
 # @param manage_postgresql_repo
 #   Should the postgresql module manage the package repo
-# @param manage_postgresql_dnf_module
-#   Manage the DNF module for postgresql
 # @param use_consul
 #   Boolean to use Consul for configuration storage
 # @param consul_host
@@ -300,7 +298,6 @@ class patroni (
   Boolean $pgsql_remove_data_directory_on_rewind_failure = false,
   Array[Hash] $pgsql_replica_method = [],
   Boolean $manage_postgresql_repo = true,
-  Boolean $manage_postgresql_dnf_module = false,
 
   # Consul Settings
   Boolean $use_consul = false,
@@ -394,7 +391,6 @@ class patroni (
       encoding            => 'UTF-8',
       locale              => 'en_US.UTF-8',
       manage_package_repo => $manage_postgresql_repo,
-      manage_dnf_module   => $manage_postgresql_dnf_module,
       version             => $postgresql_version,
     }
 
@@ -405,8 +401,6 @@ class patroni (
 
     if $manage_postgresql_repo == true {
       $postgres_repo_require = 'Class[Postgresql::Repo]'
-    } elsif $manage_postgresql_dnf_module {
-      $postgres_repo_require = 'Class[Postgresql::Dnfmodule]'
     } else {
       $postgres_repo_require = undef
     }
@@ -426,6 +420,13 @@ class patroni (
     }
     if $install_method == 'pip' {
       Package['patroni-postgresql-devel-package'] -> Python::Pip['psycopg2']
+    }
+
+    if $facts['os']['family'] == 'RedHat' and $manage_postgresql_repo and $default_bin_dir != '/usr/bin' {
+      file { '/usr/bin/pg_config':
+        ensure => 'link',
+        target => "${default_bin_dir}/pg_config",
+      }
     }
 
     exec { 'patroni-clear-datadir':

@@ -55,6 +55,13 @@ describe 'patroni' do
         )
       end
       it do
+        if platform_data(platform, :pg_config_link)
+          is_expected.to contain_file('/usr/bin/pg_config').with_ensure('link')
+        else
+          is_expected.not_to contain_file('/usr/bin/pg_config')
+        end
+      end
+      it do
         is_expected.to contain_exec('patroni-clear-datadir').with(
           path: '/usr/bin:/bin',
           command: "/bin/rm -rf #{platform_data(platform, :data_dir)}",
