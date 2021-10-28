@@ -9,7 +9,11 @@ describe 'patroni' do
     supported_os: [
       {
         'operatingsystem'        => 'CentOS',
-        'operatingsystemrelease' => ['7', '8'],
+        'operatingsystemrelease' => ['7'],
+      },
+      {
+        'operatingsystem'        => 'Rocky',
+        'operatingsystemrelease' => ['8'],
       },
       {
         'operatingsystem'        => 'Debian',

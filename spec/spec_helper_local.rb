@@ -11,7 +11,7 @@ def platform_data(p, d)
       python_class_version: '36',
       python_venv_version: '3.6',
     },
-    'CentOS-8' => {
+    'Rocky-8' => {
       manage_postgresql_repo: false,
       postgres_repo_require: nil,
       data_dir: '/var/lib/pgsql/data',
