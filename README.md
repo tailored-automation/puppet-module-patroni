@@ -164,7 +164,8 @@ node pgarb {
 }
 ```
 
-It's possible to define [DCS configuration](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) values using Puppet with an example like the following:
+Some values such as the PostgreSQL `max_connections` require changes to the [DCS configuration](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html).
+This example shows using the `patroni_dcs_config` type with an `Exec` that will restart the Patroni cluster.
 
 ```puppet
 include patroni
