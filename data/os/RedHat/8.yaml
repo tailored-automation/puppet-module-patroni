@@ -1,3 +1,5 @@
 ---
+patroni::manage_postgresql_repo: false
+patroni::manage_postgresql_dnf_module: true
 patroni::python_class_version: '3'
 patroni::python_venv_version: '3'

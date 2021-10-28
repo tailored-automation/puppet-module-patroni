@@ -8,13 +8,13 @@ def platform_data(p, d)
       data_dir: '/var/lib/pgsql/9.6/data',
       bin_dir: '/usr/pgsql-9.6/bin',
       python_class_version: '36',
-      install_dependencies: ['gcc', 'python3-psycopg2'],
       python_venv_version: '3.6',
     },
     'CentOS-8' => {
+      manage_postgresql_repo: false,
+      postgres_repo_require: 'Class[Postgresql::Dnfmodule]',
       data_dir: '/var/lib/pgsql/data',
       bin_dir: '/usr/bin',
-      install_dependencies: ['gcc', 'python3-psycopg2'],
       python_venv_version: '3',
     },
     'Debian-9' => {
@@ -39,6 +39,8 @@ def platform_data(p, d)
     },
     'default' => {
       postgresql_version: nil,
+      manage_postgresql_repo: true,
+      postgres_repo_require: 'Class[Postgresql::Repo]',
       python_class_version: '3',
       install_dependencies: ['gcc'],
       python_venv_version: '3.7',
