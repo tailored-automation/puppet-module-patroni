@@ -74,7 +74,7 @@
     "cluster",
     "ha"
   ],
-  "pdk-version": "1.18.1",
+  "pdk-version": "2.2.0",
   "template-url": "https://github.com/tailored-automation/pdk-templates.git#master",
-  "template-ref": "heads/master-0-g2163167"
+  "template-ref": "heads/master-0-g4b7397a"
 }

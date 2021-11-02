@@ -16,7 +16,7 @@
   acceptance_matrix:
     set:
       - centos-7
-      - centos-8
+      - rocky-8
       - debian-9
       - debian-10
       - ubuntu-1804
@@ -38,11 +38,9 @@ Rakefile:
 spec/spec_helper.rb:
   coverage_report: true
   minimum_code_coverage_percentage: 100
-spec/acceptance/nodesets/centos-6.yml:
-  delete: true
 spec/acceptance/nodesets/centos-7.yml:
   unmanaged: true
-spec/acceptance/nodesets/centos-8.yml:
+spec/acceptance/nodesets/rocky-8.yml:
   unmanaged: true
 spec/acceptance/nodesets/ubuntu-1604.yml:
   delete: true
