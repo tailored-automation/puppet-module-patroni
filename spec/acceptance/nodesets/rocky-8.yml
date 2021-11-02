@@ -6,7 +6,7 @@ HOSTS:
       - patroni1
     platform: el-8-x86_64
     hypervisor: docker
-    image: centos:8
+    image: rockylinux/rockylinux:8
     docker_preserve_image: true
     docker_cmd:
       - '/usr/sbin/init'
@@ -21,7 +21,7 @@ HOSTS:
       - patroni2
     platform: el-8-x86_64
     hypervisor: docker
-    image: centos:8
+    image: rockylinux/rockylinux:8
     docker_preserve_image: true
     docker_cmd:
       - '/usr/sbin/init'

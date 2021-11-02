@@ -1,3 +1,4 @@
 ---
+patroni::manage_postgresql_repo: false
 patroni::python_class_version: '3'
 patroni::python_venv_version: '3'

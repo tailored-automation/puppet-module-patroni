@@ -1,0 +1,12 @@
+loop_wait: 10
+master_start_timeout: 300
+maximum_lag_on_failover: 1048576
+postgresql:
+  parameters:
+    max_connections: 200
+  use_pg_rewind: true
+  use_slots: true
+retry_timeout: 10
+synchronous_mode: false
+synchronous_mode_strict: false
+ttl: 30

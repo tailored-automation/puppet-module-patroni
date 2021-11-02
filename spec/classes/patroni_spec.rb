@@ -9,7 +9,11 @@ describe 'patroni' do
     supported_os: [
       {
         'operatingsystem'        => 'CentOS',
-        'operatingsystemrelease' => ['7', '8'],
+        'operatingsystemrelease' => ['7'],
+      },
+      {
+        'operatingsystem'        => 'Rocky',
+        'operatingsystemrelease' => ['8'],
       },
       {
         'operatingsystem'        => 'Debian',
@@ -35,7 +39,7 @@ describe 'patroni' do
         is_expected.to contain_class('postgresql::globals').with(
           encoding: 'UTF-8',
           locale: 'en_US.UTF-8',
-          manage_package_repo: 'true',
+          manage_package_repo: platform_data(platform, :manage_postgresql_repo),
           version: platform_data(platform, :postgresql_version),
         )
       end
@@ -43,9 +47,23 @@ describe 'patroni' do
       it do
         is_expected.to contain_package('patroni-postgresql-package').with(
           ensure: 'present',
-          require: 'Class[Postgresql::Repo]',
+          require: platform_data(platform, :postgres_repo_require),
           before: 'Service[patroni]',
         )
+      end
+      it do
+        is_expected.to contain_package('patroni-postgresql-devel-package').with(
+          ensure: 'present',
+          require: platform_data(platform, :postgres_repo_require),
+          before: ['Service[patroni]', 'Python::Pip[psycopg2]'],
+        )
+      end
+      it do
+        if platform_data(platform, :pg_config_link)
+          is_expected.to contain_file('/usr/bin/pg_config').with_ensure('link')
+        else
+          is_expected.not_to contain_file('/usr/bin/pg_config')
+        end
       end
       it do
         is_expected.to contain_exec('patroni-clear-datadir').with(
@@ -279,6 +297,13 @@ describe 'patroni' do
         )
       end
 
+      it do
+        is_expected.to contain_patronictl_config('puppet').with(
+          path: '/opt/app/patroni/bin/patronictl',
+          config: platform_data(platform, :config_path),
+        )
+      end
+
       context 'use_etcd => true' do
         let(:params) { { 'scope' => 'testscope', 'use_etcd' => true } }
 
@@ -317,23 +342,6 @@ describe 'patroni' do
           config = YAML.safe_load(content)
           expect(config['postgresql']['data_dir']).to eq('/var/lib/patroni')
           expect(config['postgresql']['bin_dir']).to be_nil
-        end
-      end
-
-      context 'manage_postgresql_repo => false' do
-        let(:params) { { 'scope' => 'testscope', 'manage_postgresql_repo' => false } }
-
-        it { is_expected.to compile.with_all_deps }
-
-        it do
-          is_expected.to contain_class('postgresql::globals').with(
-            manage_package_repo: false,
-          )
-        end
-        it do
-          is_expected.to contain_package('patroni-postgresql-package').with(
-            require: nil,
-          )
         end
       end
 
