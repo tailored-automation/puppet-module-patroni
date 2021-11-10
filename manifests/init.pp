@@ -36,6 +36,8 @@
 #   Refer to Bootstrap configuration settings `encoding` setting
 # @param initdb_locale
 #   Refer to Bootstrap configuration settings `locale` setting
+# @param initdb_encryption_command
+#   Shell command to run that returns the 16-digit hexadecimal passphrase to be used as encryption key for Crunchy Hardened PostgresQL
 # @param bootstrap_pg_hba
 #   Refer to Bootstrap configuration settings `pg_hba` setting
 # @param bootstrap_users
@@ -262,7 +264,7 @@ class patroni (
   String[1] $bootstrap_method = 'initdb',
   Boolean $initdb_data_checksums = true,
   String $initdb_encoding = 'UTF8',
-  Variant[Undef,String] $initdb_encryption_command     = undef,
+  Optional[String[1]] $initdb_encryption_command,
   String $initdb_locale = 'en_US.utf8',
   Array[String] $bootstrap_pg_hba = [
     'host all all 0.0.0.0/0 md5',
