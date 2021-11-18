@@ -415,6 +415,23 @@ class patroni (
       before  => Service['patroni'],
     }
 
+    package { 'patroni-postgresql-devel-package':
+      ensure  => present,
+      name    => $postgresql::params::devel_package_name,
+      require => $postgres_repo_require,
+      before  => Service['patroni'],
+    }
+    if $install_method == 'pip' {
+      Package['patroni-postgresql-devel-package'] -> Python::Pip['psycopg2']
+    }
+
+    if $facts['os']['family'] == 'RedHat' and $manage_postgresql_repo and $default_bin_dir != '/usr/bin' {
+      file { '/usr/bin/pg_config':
+        ensure => 'link',
+        target => "${default_bin_dir}/pg_config",
+      }
+    }
+
     exec { 'patroni-clear-datadir':
       path        => '/usr/bin:/bin',
       command     => "/bin/rm -rf ${default_data_dir}",
@@ -548,5 +565,11 @@ class patroni (
     ensure => $service_ensure,
     name   => $service_name,
     enable => $service_enable,
+  }
+
+  $patronictl = "${install_dir}/bin/patronictl"
+  patronictl_config { 'puppet':
+    path   => $patronictl,
+    config => $config_path,
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "tailoredautomation-patroni",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "author": "tailoredautomation",
   "summary": "Install and manages Patroni for high-availability PostgreSQL",
   "license": "Apache-2.0",
@@ -48,6 +48,12 @@
       ]
     },
     {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "9",
@@ -68,7 +74,7 @@
     "cluster",
     "ha"
   ],
-  "pdk-version": "1.18.1",
+  "pdk-version": "2.2.0",
   "template-url": "https://github.com/tailored-automation/pdk-templates.git#master",
-  "template-ref": "heads/master-0-g2163167"
+  "template-ref": "heads/master-0-g4b7397a"
 }

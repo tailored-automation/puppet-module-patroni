@@ -8,6 +8,11 @@
 
 * [`patroni`](#patroni): Manages a Patroni instance
 
+### Resource types
+
+* [`patroni_dcs_config`](#patroni_dcs_config): Manages Patroni DCS configuration options
+* [`patronictl_config`](#patronictl_config): Abstract type to configure other types
+
 ## Classes
 
 ### <a name="patroni"></a>`patroni`
@@ -1092,4 +1097,76 @@ Data type: `Optional[String[1]]`
 Use custom pip path when installing pip packages
 
 Default value: ``undef``
+
+## Resource types
+
+### <a name="patroni_dcs_config"></a>`patroni_dcs_config`
+
+Manages Patroni DCS configuration options
+
+#### Examples
+
+##### Set PostgreSQL max connections
+
+```puppet
+patroni_dcs_config { 'postgresql.params.max_connections':
+  value => '200',
+}
+```
+
+#### Properties
+
+The following properties are available in the `patroni_dcs_config` type.
+
+##### `value`
+
+The value to assign the DCS configuration
+
+#### Parameters
+
+The following parameters are available in the `patroni_dcs_config` type.
+
+* [`name`](#name)
+* [`provider`](#provider)
+
+##### <a name="name"></a>`name`
+
+namevar
+
+The DCS configuration option name
+
+##### <a name="provider"></a>`provider`
+
+The specific backend to use for this `patroni_dcs_config` resource. You will seldom need to specify this --- Puppet will
+usually discover the appropriate provider for your platform.
+
+### <a name="patronictl_config"></a>`patronictl_config`
+
+**NOTE** This is a private type not intended to be used directly.
+
+#### Parameters
+
+The following parameters are available in the `patronictl_config` type.
+
+* [`config`](#config)
+* [`name`](#name)
+* [`path`](#path)
+
+##### <a name="config"></a>`config`
+
+patronictl config
+
+Default value: `/opt/app/patroni/etc/postgresql.yml`
+
+##### <a name="name"></a>`name`
+
+namevar
+
+The name of the resource.
+
+##### <a name="path"></a>`path`
+
+patronictl path
+
+Default value: `/opt/app/patroni/bin/patronictl`
 

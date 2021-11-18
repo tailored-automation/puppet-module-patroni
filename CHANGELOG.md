@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v1.5.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v1.5.0) (2021-06-18)
+## [v1.6.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v1.6.0) (2021-11-02)
+
+[Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v1.5.0...v1.6.0)
+
+### UNCATEGORIZED PRS; GO LABEL THEM
+
+- Add ability to configure Patroni DCS configs [\#24](https://github.com/tailored-automation/puppet-module-patroni/pull/24) ([treydock](https://github.com/treydock))
+
+## [v1.5.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v1.5.0) (2021-06-19)
 
 [Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v1.4.0...v1.5.0)
 
