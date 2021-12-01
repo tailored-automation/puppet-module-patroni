@@ -242,6 +242,17 @@
 #   Patroni service enable property
 # @param custom_pip_provider
 #   Use custom pip path when installing pip packages
+# @param patroni_log_level
+# set log level (error,debug)
+# @param patroni_log_dir
+#   log directory for patroni log
+# @param patroni_log_format
+#   set logging format
+# @param patroni_log_file_num
+# @param patroni_log_file_size
+#   size of log file before rotation
+# @param patroni_log_traceback_level
+
 class patroni (
 
   # Global Settings
@@ -318,6 +329,14 @@ class patroni (
   Variant[Undef,String] $consul_key = undef,
   Variant[Undef,String] $consul_dc = undef,
   Variant[Undef,String] $consul_checks = undef,
+
+  # Log settings
+  Variant[Undef,String] $patroni_log_level = undef,
+  Variant[Undef,String] $patroni_log_dir = undef,
+  Variant[Undef,String] $patroni_log_format = undef,
+  Variant[Undef,String] $patroni_log_file_num = undef,
+  Variant[Undef,String] $patroni_log_file_size = undef,
+  Variant[Undef,String] $patroni_log_traceback_level = undef,
 
   # Etcd Settings
   Boolean $use_etcd = false,

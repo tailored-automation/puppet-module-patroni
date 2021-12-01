@@ -249,6 +249,20 @@ kubernetes:
 <% end -%>
 <% if @use_consul -%>
 
+log:
+<% if @patroni_log_level != nil -%>
+  patroni_log_level: <%= @patroni_log_level %>
+<% if @patroni_log_dir != nil -%>
+  patroni_log_dir: <%= @patroni_log_dir %>
+<% if @patroni_log_format != nil -%>
+  patroni_log_format: <%= @patroni_log_format %>
+<% if @patroni_log_file_num != nil -%>
+  patroni_log_file_num: <%= @patroni_log_file_num %>
+<% if @patroni_log_file_size != nil -%>
+  patroni_log_file_size: <%= @patroni_log_file_size %>
+<% if @patroni_log_traceback_level != nil -%>
+  patroni_log_traceback_level: <%= @patroni_log_traceback_level %>
+
 consul:
   host: <%= @consul_host %>
   port: <%= @consul_port %>
