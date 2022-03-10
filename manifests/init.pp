@@ -240,6 +240,14 @@
 #   Patroni service enable property
 # @param custom_pip_provider
 #   Use custom pip path when installing pip packages
+# @param is_standby
+#   Boolean to use Standby cluster
+# @param standby_cluster_host
+#   Refer to Standby configuration `host` setting
+# @param standby_cluster_port
+#   Refer to Standby configuration `port` setting
+# @param standby_cluster_primary_slot_name
+#   Refer to Standby configuration `slot` setting
 class patroni (
 
   # Global Settings
@@ -270,6 +278,10 @@ class patroni (
   Hash $bootstrap_users = {},
   Variant[Undef,String] $bootstrap_post_bootstrap = undef,
   Variant[Undef,String] $bootstrap_post_init = undef,
+  Boolean $is_standby = false,
+  String $standby_cluster_host = '127.0.0.1',
+  Stdlib::Port $standby_cluster_port = 5432,
+  Optional[String] $standby_cluster_primary_slot_name = 'patroni',
 
   # PostgreSQL Settings
   String $superuser_username = 'postgres',
