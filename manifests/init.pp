@@ -48,10 +48,30 @@
 #   Refer to PostgreSQL configuration settings superuser username
 # @param superuser_password
 #   Refer to PostgreSQL configuration settings superuser password
+# @param superuser_sslmode
+#   Refer to PostgreSQL configuration setting superuser sslmode
+# @param superuser_sslkey
+#   Refer to PostgreSQL configuration setting superuser sslkey
+# @param superuser_sslpassword
+#   Refer to PostgreSQL configuration setting superuser sslpassword
+# @param superuser_sslcert
+#   Refer to PostgreSQL configuration setting superuser sslcert
+# @param superuser_sslrootcert
+#   Refer to PostgreSQL configuration setting superuser sslrootcert
 # @param replication_username
 #   Refer to PostgreSQL configuration settings replication username
 # @param replication_password
 #   Refer to PostgreSQL configuration settings replication password
+# @param replication_sslmode
+#   Refer to PostgreSQL configuration setting replication sslmode
+# @param replication_sslkey
+#   Refer to PostgreSQL configuration setting replication sslkey
+# @param replication_sslpassword
+#   Refer to PostgreSQL configuration setting replication sslpassword
+# @param replication_sslcert
+#   Refer to PostgreSQL configuration setting replication sslcert
+# @param replication_sslrootcert
+#   Refer to PostgreSQL configuration setting replication sslrootcert
 # @param callback_on_reload
 #   Refer to PostgreSQL configuration settings callbacks `on_reload`
 # @param callback_on_restart
@@ -273,9 +293,19 @@ class patroni (
 
   # PostgreSQL Settings
   String $superuser_username = 'postgres',
-  String $superuser_password = 'changeme',
+  Optional[String] $superuser_password = 'changeme',
+  Optional[String] $superuser_sslmode = undef,
+  Optional[String] $superuser_sslkey = undef,
+  Optional[String] $superuser_sslpassword = undef,
+  Optional[String] $superuser_sslcert = undef,
+  Optional[String] $superuser_sslrootcert = undef,
   String $replication_username = 'rep_user',
-  String $replication_password = 'changeme',
+  Optional[String] $replication_password = 'changeme',
+  Optional[String] $replication_sslmode = undef,
+  Optional[String] $replication_sslkey = undef,
+  Optional[String] $replication_sslpassword = undef,
+  Optional[String] $replication_sslcert = undef,
+  Optional[String] $replication_sslrootcert = undef,
   Variant[Undef,String] $callback_on_reload = undef,
   Variant[Undef,String] $callback_on_restart = undef,
   Variant[Undef,String] $callback_on_role_change = undef,

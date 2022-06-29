@@ -47,8 +47,18 @@ The following parameters are available in the `patroni` class:
 * [`bootstrap_post_init`](#bootstrap_post_init)
 * [`superuser_username`](#superuser_username)
 * [`superuser_password`](#superuser_password)
+* [`superuser_sslmode`](#superuser_sslmode)
+* [`superuser_sslkey`](#superuser_sslkey)
+* [`superuser_sslpassword`](#superuser_sslpassword)
+* [`superuser_sslcert`](#superuser_sslcert)
+* [`superuser_sslrootcert`](#superuser_sslrootcert)
 * [`replication_username`](#replication_username)
 * [`replication_password`](#replication_password)
+* [`replication_sslmode`](#replication_sslmode)
+* [`replication_sslkey`](#replication_sslkey)
+* [`replication_sslpassword`](#replication_sslpassword)
+* [`replication_sslcert`](#replication_sslcert)
+* [`replication_sslrootcert`](#replication_sslrootcert)
 * [`callback_on_reload`](#callback_on_reload)
 * [`callback_on_restart`](#callback_on_restart)
 * [`callback_on_role_change`](#callback_on_role_change)
@@ -330,13 +340,53 @@ Default value: `'postgres'`
 
 ##### <a name="superuser_password"></a>`superuser_password`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Refer to PostgreSQL configuration settings superuser password
 
 Default value: `'changeme'`
 
-##### <a name="replication_username"></a>`replication_username`
+##### <a name="superuser_sslmode"><a/>superuser_sslmode
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings superuser sslmode
+
+Default value: ``undef``
+
+##### <a name="superuser_sslkey"><a/>superuser_sslkey
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings superuser sslkey
+
+Default value: ``undef``
+
+##### <a name="superuser_sslpassword"><a/>superuser_sslpassword
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings superuser sslpassword
+
+Default value: ``undef``
+
+##### <a name="superuser_sslcert"><a/>superuser_sslcert
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings superuser sslcert
+
+Default value: ``undef``
+
+##### <a name="superuser_sslrootcert"><a/>superuser_sslrootcert
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings superuser sslrootcert
+
+Default value: ``undef``
+
+##### <a name="replication_username"><a/>replication_username
 
 Data type: `String`
 
@@ -346,11 +396,51 @@ Default value: `'rep_user'`
 
 ##### <a name="replication_password"></a>`replication_password`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Refer to PostgreSQL configuration settings replication password
 
 Default value: `'changeme'`
+
+##### <a name="replication_sslmode"><a/>replication_sslmode
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings replication sslmode
+
+Default value: ``undef``
+
+##### <a name="replication_sslkey"><a/>replication_sslkey
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings replication sslkey
+
+Default value: ``undef``
+
+##### <a name="replication_sslpassword"><a/>replication_sslpassword
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings replication sslpassword
+
+Default value: ``undef``
+
+##### <a name="replication_sslcert"><a/>replication_sslcert
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings replication sslcert
+
+Default value: ``undef``
+
+##### <a name="replication_sslrootcert"><a/>replication_sslrootcert
+
+Data type: `Optional[String]`
+
+Refer to PostgreSQL configuration settings replication sslrootcert
+
+Default value: ``undef``
 
 ##### <a name="callback_on_reload"></a>`callback_on_reload`
 

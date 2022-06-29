@@ -79,10 +79,44 @@ postgresql:
   authentication:
     superuser:
       username: <%= @superuser_username %>
+<% if @superuser_password != nil -%>
       password: <%= @superuser_password %>
+<% end -%>
+<% if @superuser_sslmode != nil -%>
+      sslmode: <%= @superuser_sslmode %>
+<% end -%>
+<% if @superuser_sslkey != nil -%>
+      sslkey: <%= @superuser_sslkey %>
+<% end -%>
+<% if @superuser_sslpassword != nil -%>
+      sslpassword: <%= @superuser_sslpassword %>
+<% end -%>
+<% if @superuser_sslcert != nil -%>
+      sslcert: <%= @superuser_sslcert %>
+<% end -%>
+<% if @superuser_sslrootcert != nil -%>
+      sslrootcert: <%= @superuser_sslrootcert %>
+<% end -%>
     replication:
       username: <%= @replication_username %>
+<% if @replication_password != nil -%>
       password: <%= @replication_password %>
+<% end -%>
+<% if @replication_sslmode != nil -%>
+      sslmode: <%= @replication_sslmode %>
+<% end -%>
+<% if @replication_sslkey != nil -%>
+      sslkey: <%= @replication_sslkey %>
+<% end -%>
+<% if @replication_sslpassword != nil -%>
+      sslpassword: <%= @replication_sslpassword %>
+<% end -%>
+<% if @replication_sslcert != nil -%>
+      sslcert: <%= @replication_sslcert %>
+<% end -%>
+<% if @replication_sslrootcert != nil -%>
+      sslrootcert: <%= @replication_sslrootcert %>
+<% end -%>
 <% unless @callback_on_reload == nil && @callback_on_restart == nil && @callback_on_role_change == nil && @callback_on_start == nil && @callback_on_stop == nil -%>
   callbacks:
 <% if @callback_on_reload != nil -%>
