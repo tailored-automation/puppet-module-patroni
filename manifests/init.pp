@@ -222,6 +222,8 @@
 #   Refer to Watchdog configuration `device` setting
 # @param watchdog_safety_margin
 #   Refer to Watchdog configuration `safety_margin` setting
+# @param tags
+#   Refer to Tags setting, this is a hash which will contain all tags that should be added
 # @param manage_postgresql
 #   Boolean to determine if postgresql is managed
 # @param postgresql_version
@@ -395,6 +397,9 @@ class patroni (
   Enum['off','automatic','required'] $watchdog_mode = 'automatic',
   String $watchdog_device = '/dev/watchdog',
   Integer $watchdog_safety_margin = 5,
+
+  # Tags Settings
+  Hash $tags = {},
 
   # Module Specific Settings
   Boolean $manage_postgresql = true,

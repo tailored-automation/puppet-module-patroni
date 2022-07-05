@@ -134,6 +134,7 @@ The following parameters are available in the `patroni` class:
 * [`watchdog_mode`](#watchdog_mode)
 * [`watchdog_device`](#watchdog_device)
 * [`watchdog_safety_margin`](#watchdog_safety_margin)
+* [`tags`](#tags)
 * [`manage_postgresql`](#manage_postgresql)
 * [`postgresql_version`](#postgresql_version)
 * [`package_name`](#package_name)
@@ -1041,6 +1042,14 @@ Data type: `Integer`
 Refer to Watchdog configuration `safety_margin` setting
 
 Default value: `5`
+
+##### <a name="tags"></a>`tags`
+
+Data type: `Hash`
+
+Refer to Tags setting, this is a hash which will contain all tags that should be added
+
+Default value: `{}`
 
 ##### <a name="manage_postgresql"></a>`manage_postgresql`
 

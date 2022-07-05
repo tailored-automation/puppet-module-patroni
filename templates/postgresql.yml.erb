@@ -315,3 +315,9 @@ consul:
   service_check_interval: <%= @consul_service_check_interval %>
 <% end -%>
 <% end -%>
+<% unless @tags.empty? -%>
+tags:
+<% @tags.each do |name,val| -%>
+  <%= name -%>: <%= val %>
+<% end -%>
+<% end -%>
