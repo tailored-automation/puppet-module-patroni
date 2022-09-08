@@ -1,4 +1,4 @@
-class { '::postgresql::globals':
+class { 'postgresql::globals':
   encoding            => 'UTF-8',
   locale              => 'en_US.UTF-8',
   manage_package_repo => true,
