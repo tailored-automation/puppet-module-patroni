@@ -2,3 +2,4 @@
 patroni::config_path: '/opt/app/patroni/etc/postgresql.yml'
 patroni::install_dependencies:
   - gcc
+patroni::manage_venv_package: false
