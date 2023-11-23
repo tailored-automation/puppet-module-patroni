@@ -345,6 +345,67 @@ describe 'patroni' do
         end
       end
 
+      context 'superuser certificate authentication' do
+        let(:params) do
+          {
+            'scope'                 => 'testscope',
+            'superuser_username'    => 'superuser',
+            'superuser_sslmode'     => 'require',
+            'superuser_sslkey'      => '/var/lib/pgsql/ssl_key.pem',
+            'superuser_sslpassword' => 'secretpass',
+            'superuser_sslcert'     => '/var/lib/pgsql/ssl_cert.pem',
+            'superuser_sslrootcert' => '/var/lib/pgsql/root_cert.pem',
+          }
+        end
+
+        it 'has valid config' do
+          content = catalogue.resource('file', 'patroni_config').send(:parameters)[:content]
+          config = YAML.safe_load(content)
+          expected = {
+            'superuser' => {
+              'sslcert'     => '/var/lib/pgsql/ssl_cert.pem',
+              'sslkey'      => '/var/lib/pgsql/ssl_key.pem',
+              'sslmode'     => 'require',
+              'sslpassword' => 'secretpass',
+              'sslrootcert' => '/var/lib/pgsql/root_cert.pem',
+              'username'    => 'superuser',
+            },
+          }
+          expect(config).to include(expected)
+        end
+      end
+
+      context 'replication user certificate authentication' do
+        let(:params) do
+          {
+            'scope'                 => 'testscope',
+            'replication_username'    => 'replication',
+            'replication_sslmode'     => 'require',
+            'replication_sslkey'      => '/var/lib/pgsql/ssl_key.pem',
+            'replication_sslpassword' => 'secretpass',
+            'replication_sslcert'     => '/var/lib/pgsql/ssl_cert.pem',
+            'replication_sslrootcert' => '/var/lib/pgsql/root_cert.pem',
+          }
+        end
+
+        it 'has valid config' do
+          content = catalogue.resource('file', 'patroni_config').send(:parameters)[:content]
+          config = YAML.safe_load(content)
+          expected = {
+            "replication" => {
+              "username"    => "replication",
+              "password"    => "changeme",
+              "sslmode"     => "require",
+              "sslkey"      => "/var/lib/pgsql/ssl_key.pem",
+              "sslpassword" => "secretpass",
+              "sslcert"     => "/var/lib/pgsql/ssl_cert.pem",
+              "sslrootcert" =>"/var/lib/pgsql/root_cert.pem"
+            }
+          }
+          expect(config).to include(expected)
+        end
+      end
+
       context 'install_method => package' do
         let(:params) { { 'scope' => 'testscope', 'install_method' => 'package' } }
 
