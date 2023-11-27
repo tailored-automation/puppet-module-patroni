@@ -224,6 +224,8 @@
 # @param python_venv_version
 #   The  version of Python to pass to Python virtualenv defined type
 #   Only used when `install_method` is `pip`
+# @param manage_venv_package
+#   Whether to manage the Python venv package
 # @param config_path
 #   Path to Patroni configuration file
 # @param config_owner
@@ -377,6 +379,7 @@ class patroni (
   Stdlib::Absolutepath $install_dir = '/opt/app/patroni',
   String $python_class_version = '36',
   String $python_venv_version = '3.6',
+  Boolean $manage_venv_package = true,
   String $config_path = '/opt/app/patroni/etc/postgresql.yml',
   String $config_owner = 'postgres',
   String $config_group = 'postgres',
@@ -447,9 +450,10 @@ class patroni (
   if $install_method == 'pip' {
     if $manage_python {
       class { 'python':
-        version    => $python_class_version,
-        dev        => 'present',
-        virtualenv => 'present',
+        version             => $python_class_version,
+        dev                 => 'present',
+        venv                => 'present',
+        manage_venv_package => $manage_venv_package,
       }
     }
 
@@ -460,26 +464,12 @@ class patroni (
       creates => $install_dir,
     }
 
-    if $facts['os']['family'] == 'RedHat' {
-      python::virtualenv { 'patroni':
-        version     => $python_venv_version,
-        venv_dir    => $install_dir,
-        virtualenv  => 'virtualenv-3',
-        systempkgs  => true,
-        distribute  => false,
-        environment => ["PIP_PREFIX=${install_dir}"],
-        require     => Exec['patroni-mkdir-install_dir'],
-      }
-    }
-
-    if $facts['os']['family'] == 'Debian' {
-      python::pyvenv { 'patroni':
-        version     => $python_venv_version,
-        venv_dir    => $install_dir,
-        systempkgs  => true,
-        environment => ["PIP_PREFIX=${install_dir}"],
-        require     => Exec['patroni-mkdir-install_dir'],
-      }
+    python::pyvenv { 'patroni':
+      version     => $python_venv_version,
+      venv_dir    => $install_dir,
+      systempkgs  => true,
+      environment => ["PIP_PREFIX=${install_dir}"],
+      require     => Exec['patroni-mkdir-install_dir'],
     }
 
     if $custom_pip_provider {
@@ -527,11 +517,12 @@ class patroni (
   if $install_method == 'pip' {
     $config_dir = dirname($config_path)
     file { 'patroni_config_dir':
-      ensure => 'directory',
-      path   => $config_dir,
-      owner  => 'postgres',
-      group  => 'postgres',
-      mode   => '0755',
+      ensure  => 'directory',
+      path    => $config_dir,
+      owner   => 'postgres',
+      group   => 'postgres',
+      mode    => '0755',
+      require => Python::Pyvenv['patroni'],
     }
   }
 

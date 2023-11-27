@@ -2,23 +2,22 @@
 # See https://github.com/puppetlabs/puppetlabs_spec_helper#using-fixtures for details
 ---
 fixtures:
-  repositories:
+  forge_modules:
     stdlib:
-      repo: https://github.com/puppetlabs/puppetlabs-stdlib.git
+      repo: puppetlabs/stdlib
     postgresql:
-      repo: https://github.com/puppetlabs/puppetlabs-postgresql.git
+      repo: puppetlabs/postgresql
     # Needed by Postgresql module
     apt:
-      repo: https://github.com/puppetlabs/puppetlabs-apt.git
+      repo: puppetlabs/apt
     python:
-      repo: https://github.com/voxpupuli/puppet-python.git
+      repo: puppet/python
     # Needed by Python module
     epel:
-      repo: https://github.com/voxpupuli/puppet-epel.git
+      repo: puppet/epel
     systemd:
-      repo: https://github.com/camptocamp/puppet-systemd.git
+      repo: puppet/systemd
     yumrepo_core:
-      repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core
-      puppet_version: ">= 6.0.0"
+      repo: puppetlabs/yumrepo_core
   symlinks:
     patroni: "#{source_dir}"

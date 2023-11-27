@@ -3,7 +3,7 @@ Coveralls.wear!
 
 def platform_data(p, d)
   data = {
-    'CentOS-7' => {
+    'RedHat-7' => {
       postgresql_version: '9.6',
       data_dir: '/var/lib/pgsql/9.6/data',
       bin_dir: '/usr/pgsql-9.6/bin',
@@ -11,30 +11,38 @@ def platform_data(p, d)
       python_class_version: '36',
       python_venv_version: '3.6',
     },
-    'Rocky-8' => {
+    'RedHat-8' => {
       manage_postgresql_repo: false,
       postgres_repo_require: nil,
       data_dir: '/var/lib/pgsql/data',
       bin_dir: '/usr/bin',
-      python_venv_version: '3',
-    },
-    'Debian-9' => {
-      data_dir: '/var/lib/postgresql/9.6/main',
-      bin_dir: '/usr/lib/postgresql/9.6/bin',
-      python_venv_version: '3.5',
-      config_dir: '/etc/patroni',
-      config_path: '/etc/patroni/config.yml',
-    },
-    'Debian-10' => {
-      data_dir: '/var/lib/postgresql/11/main',
-      bin_dir: '/usr/lib/postgresql/11/bin',
-      config_dir: '/etc/patroni',
-      config_path: '/etc/patroni/config.yml',
-    },
-    'Ubuntu-18.04' => {
-      data_dir: '/var/lib/postgresql/10/main',
-      bin_dir: '/usr/lib/postgresql/10/bin',
       python_venv_version: '3.6',
+    },
+    'RedHat-9' => {
+      manage_postgresql_repo: false,
+      postgres_repo_require: nil,
+      data_dir: '/var/lib/pgsql/data',
+      bin_dir: '/usr/bin',
+      python_venv_version: '3.9',
+    },
+    'Debian-11' => {
+      data_dir: '/var/lib/postgresql/13/main',
+      bin_dir: '/usr/lib/postgresql/13/bin',
+      python_venv_version: '3.9',
+      config_dir: '/etc/patroni',
+      config_path: '/etc/patroni/config.yml',
+    },
+    'Ubuntu-20.04' => {
+      data_dir: '/var/lib/postgresql/12/main',
+      bin_dir: '/usr/lib/postgresql/12/bin',
+      python_venv_version: '3.8',
+      config_dir: '/etc/patroni',
+      config_path: '/etc/patroni/config.yml',
+    },
+    'Ubuntu-22.04' => {
+      data_dir: '/var/lib/postgresql/14/main',
+      bin_dir: '/usr/lib/postgresql/14/bin',
+      python_venv_version: '3.10',
       config_dir: '/etc/patroni',
       config_path: '/etc/patroni/config.yml',
     },
