@@ -33,6 +33,9 @@ bootstrap:
 <% end -%>
     - encoding: <%= @initdb_encoding %>
     - locale: <%= @initdb_locale %>
+<% if @initdb_encryption_command -%>
+    - encryption-key-command: "<%= @initdb_encryption_command %>"
+<% end -%>
 <% unless @bootstrap_pg_hba.empty? -%>
   pg_hba:
 <% @bootstrap_pg_hba.each do |entry| -%>
