@@ -130,10 +130,12 @@ postgresql:
 <% end -%>
 <% unless @pgsql_replica_method.empty? -%>
   replica_method:
-<% @pgsql_replica_method.each do |name,settings| -%>
+<% @pgsql_replica_method.each do |replica_method| -%>
+<% replica_method.each do |name, settings| -%>
     <%= name -%>:
 <% settings.each do |setname,setval| -%>
       <%= setname -%>: <%= setval %>
+<% end -%>
 <% end -%>
 <% end -%>
 <% end -%>
