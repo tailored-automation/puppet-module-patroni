@@ -79,10 +79,10 @@ postgresql:
   authentication:
     superuser:
       username: <%= @superuser_username %>
-      password: <%= @superuser_password %>
+      password: '<%= @superuser_password %>'
     replication:
       username: <%= @replication_username %>
-      password: <%= @replication_password %>
+      password: '<%= @replication_password %>'
 <% unless @callback_on_reload == nil && @callback_on_restart == nil && @callback_on_role_change == nil && @callback_on_start == nil && @callback_on_stop == nil -%>
   callbacks:
 <% if @callback_on_reload != nil -%>
