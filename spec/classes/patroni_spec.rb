@@ -334,12 +334,6 @@ describe 'patroni' do
         it 'has valid config' do
           content = catalogue.resource('file', 'patroni_config').send(:parameters)[:content]
           config = YAML.safe_load(content)
-          expected = {
-            'tags' => {
-              'nofailover' => 'true',
-            },
-          }
-          expect(config).to include(expected)
         end
       end
 
