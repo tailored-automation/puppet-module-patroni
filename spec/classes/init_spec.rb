@@ -409,6 +409,18 @@ describe 'patroni' do
           )
         end
       end
+      context 'http_proxy => https://proxy.corp.local:3128' do
+        let :params do
+          {
+            http_proxy: 'https://proxy.corp.local:3128',
+            scope: '14-mycluster'
+          }
+        end
+
+        it {
+          is_expected.to contain_python__pip('psycopg2').with(environment: ['PIP_PREFIX=/opt/app/patroni', 'http_proxy=https://proxy.corp.local:3128', 'https_proxy=https://proxy.corp.local:3128'])
+        }
+      end
     end
   end
 end
