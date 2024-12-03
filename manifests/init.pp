@@ -253,8 +253,8 @@
 class patroni (
 
   # Global Settings
-  String $scope,
-  String $namespace = '/service/',
+  String[1] $scope,
+  String[1] $namespace = '/service/',
   String $hostname = $facts['networking']['hostname'],
 
   # Bootstrap Settings
@@ -283,7 +283,7 @@ class patroni (
   Boolean $is_standby = false,
   String $standby_cluster_host = '127.0.0.1',
   Stdlib::Port $standby_cluster_port = 5432,
-  Optional[String] $standby_cluster_primary_slot_name = 'patroni',
+  String[1] $standby_cluster_primary_slot_name = 'patroni',
 
   # PostgreSQL Settings
   String $superuser_username = 'postgres',
@@ -373,31 +373,31 @@ class patroni (
 
   # ZooKeeper Settings
   Boolean $use_zookeeper = false,
-  Array[String] $zookeeper_hosts = [],
+  Array[String[1]] $zookeeper_hosts = [],
 
   # Watchdog Settings
   Enum['off','automatic','required'] $watchdog_mode = 'automatic',
-  String $watchdog_device = '/dev/watchdog',
+  Stdlib::Absolutepath $watchdog_device = '/dev/watchdog',
   Integer $watchdog_safety_margin = 5,
 
   # Module Specific Settings
   Boolean $manage_postgresql = true,
-  Optional[String] $postgresql_version = undef,
-  String $package_name = 'patroni',
-  String $version = 'present',
-  Array $install_dependencies = [],
+  Optional[String[1]] $postgresql_version = undef,
+  String[1] $package_name = 'patroni',
+  String[1] $version = 'present',
+  Array[String[1]] $install_dependencies = [],
   Boolean $manage_python = true,
   Enum['package','pip'] $install_method = 'pip',
   Stdlib::Absolutepath $install_dir = '/opt/app/patroni',
-  String $python_class_version = '36',
-  String $python_venv_version = '3.6',
+  String[1] $python_class_version = '36',
+  String[1] $python_venv_version = '3.6',
   Boolean $manage_venv_package = true,
-  String $config_path = '/opt/app/patroni/etc/postgresql.yml',
-  String $config_owner = 'postgres',
-  String $config_group = 'postgres',
-  String $config_mode = '0600',
-  String $service_name = 'patroni',
-  String $service_ensure = 'running',
+  Stdlib::Absolutepath $config_path = '/opt/app/patroni/etc/postgresql.yml',
+  String[1] $config_owner = 'postgres',
+  String[1] $config_group = 'postgres',
+  Stdlib::Filemode $config_mode = '0600',
+  String[1] $service_name = 'patroni',
+  Enum['running', 'stopped'] $service_ensure = 'running',
   Boolean $service_enable = true,
   Optional[String[1]] $custom_pip_provider = undef,
 ) {

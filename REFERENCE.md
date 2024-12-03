@@ -143,16 +143,20 @@ The following parameters are available in the `patroni` class:
 * [`service_ensure`](#-patroni--service_ensure)
 * [`service_enable`](#-patroni--service_enable)
 * [`custom_pip_provider`](#-patroni--custom_pip_provider)
+* [`is_standby`](#-patroni--is_standby)
+* [`standby_cluster_host`](#-patroni--standby_cluster_host)
+* [`standby_cluster_port`](#-patroni--standby_cluster_port)
+* [`standby_cluster_primary_slot_name`](#-patroni--standby_cluster_primary_slot_name)
 
 ##### <a name="-patroni--scope"></a>`scope`
 
-Data type: `String`
+Data type: `String[1]`
 
 Refer to Patroni Global `scope` setting
 
 ##### <a name="-patroni--namespace"></a>`namespace`
 
-Data type: `String`
+Data type: `String[1]`
 
 Refer to Patroni Global `namespace` setting
 
@@ -927,7 +931,7 @@ Default value: `false`
 
 ##### <a name="-patroni--zookeeper_hosts"></a>`zookeeper_hosts`
 
-Data type: `Array[String]`
+Data type: `Array[String[1]]`
 
 Refer to Zookeeper configuration `hosts` setting
 
@@ -943,7 +947,7 @@ Default value: `'automatic'`
 
 ##### <a name="-patroni--watchdog_device"></a>`watchdog_device`
 
-Data type: `String`
+Data type: `Stdlib::Absolutepath`
 
 Refer to Watchdog configuration `device` setting
 
@@ -967,7 +971,7 @@ Default value: `true`
 
 ##### <a name="-patroni--postgresql_version"></a>`postgresql_version`
 
-Data type: `Optional[String]`
+Data type: `Optional[String[1]]`
 
 Version of postgresql passed to postgresql::globals class
 
@@ -975,7 +979,7 @@ Default value: `undef`
 
 ##### <a name="-patroni--package_name"></a>`package_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Patroni package name, only used when `install_method` is `package`
 
@@ -983,7 +987,7 @@ Default value: `'patroni'`
 
 ##### <a name="-patroni--version"></a>`version`
 
-Data type: `String`
+Data type: `String[1]`
 
 Version of Patroni to install
 
@@ -991,7 +995,7 @@ Default value: `'present'`
 
 ##### <a name="-patroni--install_dependencies"></a>`install_dependencies`
 
-Data type: `Array`
+Data type: `Array[String[1]]`
 
 Install dependencies, only used when `install_method` is `pip`
 
@@ -1023,7 +1027,7 @@ Default value: `'/opt/app/patroni'`
 
 ##### <a name="-patroni--python_class_version"></a>`python_class_version`
 
-Data type: `String`
+Data type: `String[1]`
 
 The  version of Python to pass to Python class
 Only used when `install_method` is `pip`
@@ -1032,7 +1036,7 @@ Default value: `'36'`
 
 ##### <a name="-patroni--python_venv_version"></a>`python_venv_version`
 
-Data type: `String`
+Data type: `String[1]`
 
 The  version of Python to pass to Python virtualenv defined type
 Only used when `install_method` is `pip`
@@ -1049,7 +1053,7 @@ Default value: `true`
 
 ##### <a name="-patroni--config_path"></a>`config_path`
 
-Data type: `String`
+Data type: `Stdlib::Absolutepath`
 
 Path to Patroni configuration file
 
@@ -1057,7 +1061,7 @@ Default value: `'/opt/app/patroni/etc/postgresql.yml'`
 
 ##### <a name="-patroni--config_owner"></a>`config_owner`
 
-Data type: `String`
+Data type: `String[1]`
 
 Patroni configuration file owner
 
@@ -1065,7 +1069,7 @@ Default value: `'postgres'`
 
 ##### <a name="-patroni--config_group"></a>`config_group`
 
-Data type: `String`
+Data type: `String[1]`
 
 Patroni configuration file group
 
@@ -1073,7 +1077,7 @@ Default value: `'postgres'`
 
 ##### <a name="-patroni--config_mode"></a>`config_mode`
 
-Data type: `String`
+Data type: `Stdlib::Filemode`
 
 Patroni configuration file mode
 
@@ -1081,7 +1085,7 @@ Default value: `'0600'`
 
 ##### <a name="-patroni--service_name"></a>`service_name`
 
-Data type: `String`
+Data type: `String[1]`
 
 Name of Patroni service
 
@@ -1089,7 +1093,7 @@ Default value: `'patroni'`
 
 ##### <a name="-patroni--service_ensure"></a>`service_ensure`
 
-Data type: `String`
+Data type: `Enum['running', 'stopped']`
 
 Patroni service ensure property
 
@@ -1110,6 +1114,38 @@ Data type: `Optional[String[1]]`
 Use custom pip path when installing pip packages
 
 Default value: `undef`
+
+##### <a name="-patroni--is_standby"></a>`is_standby`
+
+Data type: `Boolean`
+
+Boolean to use Standby cluster
+
+Default value: `false`
+
+##### <a name="-patroni--standby_cluster_host"></a>`standby_cluster_host`
+
+Data type: `String`
+
+Refer to Standby configuration `host` setting
+
+Default value: `'127.0.0.1'`
+
+##### <a name="-patroni--standby_cluster_port"></a>`standby_cluster_port`
+
+Data type: `Stdlib::Port`
+
+Refer to Standby configuration `port` setting
+
+Default value: `5432`
+
+##### <a name="-patroni--standby_cluster_primary_slot_name"></a>`standby_cluster_primary_slot_name`
+
+Data type: `String[1]`
+
+Refer to Standby configuration `slot` setting
+
+Default value: `'patroni'`
 
 ## Resource types
 
