@@ -4,6 +4,12 @@ name: <%= @hostname %>
 
 bootstrap:
   dcs:
+    <%- if @is_standby -%>
+    standby_cluster:
+      host: <%= @standby_cluster_host %>
+      port: <%= @standby_cluster_port %>
+      primary_slot_name: <%= @standby_cluster_primary_slot_name %>
+    <%- end -%>
     ttl: <%= @dcs_ttl %>
     loop_wait: <%= @dcs_loop_wait %>
     retry_timeout: <%= @dcs_retry_timeout %>
