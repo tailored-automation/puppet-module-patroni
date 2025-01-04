@@ -326,6 +326,15 @@ describe 'patroni' do
         end
       end
 
+      context 'tags => true' do
+        let(:params) { { 'scope' => 'testscope', 'tags' => true } }
+
+        it 'has valid config' do
+          content = catalogue.resource('file', 'patroni_config').send(:parameters)[:content]
+          config = YAML.safe_load(content)
+        end
+      end
+
       context 'manage_postgresql => false' do
         let(:params) { { 'scope' => 'testscope', 'manage_postgresql' => false } }
 
