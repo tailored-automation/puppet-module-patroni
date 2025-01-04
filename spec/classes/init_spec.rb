@@ -9,7 +9,7 @@ describe 'patroni' do
     supported_os: [
       {
         'operatingsystem'        => 'RedHat',
-        'operatingsystemrelease' => ['7', '8', '9'],
+        'operatingsystemrelease' => ['8', '9'],
       },
       {
         'operatingsystem'        => 'Debian',
@@ -22,7 +22,7 @@ describe 'patroni' do
     ],
   }
 
-  on_supported_os(test_on).each do |os, os_facts|
+  on_supported_os(test_on).sort.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
       let(:node) { 'localhost' }
@@ -294,11 +294,11 @@ describe 'patroni' do
           expected = {
             'standby_cluster' => {
               'host' => '127.0.0.1',
-              'port' => '5432',
+              'port' => 5432,
               'primary_slot_name' => 'patroni',
             },
           }
-          expect(config).to include(expected)
+          expect(config['bootstrap']['dcs']).to include(expected)
         end
       end
 

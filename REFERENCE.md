@@ -143,6 +143,10 @@ The following parameters are available in the `patroni` class:
 * [`service_ensure`](#-patroni--service_ensure)
 * [`service_enable`](#-patroni--service_enable)
 * [`custom_pip_provider`](#-patroni--custom_pip_provider)
+* [`is_standby`](#-patroni--is_standby)
+* [`standby_cluster_host`](#-patroni--standby_cluster_host)
+* [`standby_cluster_port`](#-patroni--standby_cluster_port)
+* [`standby_cluster_primary_slot_name`](#-patroni--standby_cluster_primary_slot_name)
 
 ##### <a name="-patroni--scope"></a>`scope`
 
@@ -1110,6 +1114,38 @@ Data type: `Optional[String[1]]`
 Use custom pip path when installing pip packages
 
 Default value: `undef`
+
+##### <a name="-patroni--is_standby"></a>`is_standby`
+
+Data type: `Boolean`
+
+Boolean to use Standby cluster
+
+Default value: `false`
+
+##### <a name="-patroni--standby_cluster_host"></a>`standby_cluster_host`
+
+Data type: `String`
+
+Refer to Standby configuration `host` setting
+
+Default value: `'127.0.0.1'`
+
+##### <a name="-patroni--standby_cluster_port"></a>`standby_cluster_port`
+
+Data type: `Stdlib::Port`
+
+Refer to Standby configuration `port` setting
+
+Default value: `5432`
+
+##### <a name="-patroni--standby_cluster_primary_slot_name"></a>`standby_cluster_primary_slot_name`
+
+Data type: `Variant[String[1], Optional[String[1]]]`
+
+Refer to Standby configuration `slot` setting
+
+Default value: `'patroni'`
 
 ## Resource types
 

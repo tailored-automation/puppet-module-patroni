@@ -283,7 +283,7 @@ class patroni (
   Boolean $is_standby = false,
   String $standby_cluster_host = '127.0.0.1',
   Stdlib::Port $standby_cluster_port = 5432,
-  Optional[String] $standby_cluster_primary_slot_name = 'patroni',
+  Variant[String[1], Optional[String[1]]] $standby_cluster_primary_slot_name = 'patroni',
 
   # PostgreSQL Settings
   String $superuser_username = 'postgres',
