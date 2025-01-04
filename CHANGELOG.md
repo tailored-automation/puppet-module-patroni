@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v2.0.1](https://github.com/tailored-automation/puppet-module-patroni/tree/v2.0.1) (2025-01-04)
+
+[Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v2.0.0...v2.0.1)
+
+### Merged pull requests:
+
+- Fix existing issues so tests work again [\#47](https://github.com/tailored-automation/puppet-module-patroni/pull/47) ([ghoneycutt](https://github.com/ghoneycutt))
+- Fix crash if pg password starting with bracket [\#42](https://github.com/tailored-automation/puppet-module-patroni/pull/42) ([ghoneycutt](https://github.com/ghoneycutt))
+- Fix crash if pg password starting with bracket [\#39](https://github.com/tailored-automation/puppet-module-patroni/pull/39) ([mouchymouchy](https://github.com/mouchymouchy))
+- adding standby cluster config [\#31](https://github.com/tailored-automation/puppet-module-patroni/pull/31) ([plmayekar](https://github.com/plmayekar))
+
 ## [v2.0.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v2.0.0) (2023-11-27)
 
 [Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v1.6.0...v2.0.0)
