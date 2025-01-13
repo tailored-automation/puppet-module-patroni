@@ -283,7 +283,7 @@ class patroni (
   Variant[Undef,String] $callback_on_role_change = undef,
   Variant[Undef,String] $callback_on_start = undef,
   Variant[Undef,String] $callback_on_stop = undef,
-  String $pgsql_connect_address = "${facts['networking']['fqdn']}:5432",
+  Variant[Undef,String] $pgsql_connect_address = "${facts['networking']['fqdn']}:5432",
   Array[String] $pgsql_create_replica_methods = ['basebackup'],
   Optional[Stdlib::Unixpath] $pgsql_data_dir = undef,
   Variant[Undef,String] $pgsql_config_dir = undef,
