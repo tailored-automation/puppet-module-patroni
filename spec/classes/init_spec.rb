@@ -17,7 +17,7 @@ describe 'patroni' do
       },
       {
         'operatingsystem'        => 'Ubuntu',
-        'operatingsystemrelease' => ['20.04', '22.04'],
+        'operatingsystemrelease' => ['20.04', '22.04', '24.04'],
       },
     ],
   }

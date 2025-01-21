@@ -46,6 +46,13 @@ def platform_data(p, d)
       config_dir: '/etc/patroni',
       config_path: '/etc/patroni/config.yml',
     },
+    'Ubuntu-24.04' => {
+      data_dir: '/var/lib/postgresql/16/main',
+      bin_dir: '/usr/lib/postgresql/16/bin',
+      python_venv_version: '3.12',
+      config_dir: '/etc/patroni',
+      config_path: '/etc/patroni/config.yml',
+    },
     'default' => {
       postgresql_version: nil,
       manage_postgresql_repo: true,
