@@ -22,7 +22,7 @@ fixtures:
       ref: '5.0.0'
     systemd:
       repo: puppet/systemd
-      ref: '6.1.0'
+      ref: '8.1.0'
     yumrepo_core:
       repo: puppetlabs/yumrepo_core
       ref: '2.0.0'
