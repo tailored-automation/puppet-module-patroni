@@ -469,7 +469,7 @@ class patroni (
       }
     }
 
-    ensure_packages($install_dependencies, { 'before' => Python::Pip['patroni'] })
+    stdlib::ensure_packages($install_dependencies, { 'before' => Python::Pip['patroni'] })
 
     exec { 'patroni-mkdir-install_dir':
       command => "/bin/mkdir -p ${install_dir}",
