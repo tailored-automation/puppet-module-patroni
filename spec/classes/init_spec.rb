@@ -13,7 +13,7 @@ describe 'patroni' do
       },
       {
         'operatingsystem'        => 'Debian',
-        'operatingsystemrelease' => ['11'],
+        'operatingsystemrelease' => ['11', '12'],
       },
       {
         'operatingsystem'        => 'Ubuntu',
