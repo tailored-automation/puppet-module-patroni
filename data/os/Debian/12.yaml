@@ -1,0 +1,2 @@
+---
+patroni::python_venv_version: '3.11'
