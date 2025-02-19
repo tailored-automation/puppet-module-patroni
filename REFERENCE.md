@@ -147,6 +147,7 @@ The following parameters are available in the `patroni` class:
 * [`standby_cluster_host`](#-patroni--standby_cluster_host)
 * [`standby_cluster_port`](#-patroni--standby_cluster_port)
 * [`standby_cluster_primary_slot_name`](#-patroni--standby_cluster_primary_slot_name)
+* [`http_proxy`](#-patroni--http_proxy)
 
 ##### <a name="-patroni--scope"></a>`scope`
 
@@ -1146,6 +1147,14 @@ Data type: `String[1]`
 Refer to Standby configuration `slot` setting
 
 Default value: `'patroni'`
+
+##### <a name="-patroni--http_proxy"></a>`http_proxy`
+
+Data type: `Optional[Stdlib::HTTPUrl]`
+
+URI for an http(s) proxy, used for pip commands
+
+Default value: `undef`
 
 ## Resource types
 

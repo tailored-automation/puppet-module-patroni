@@ -250,6 +250,8 @@
 #   Refer to Standby configuration `port` setting
 # @param standby_cluster_primary_slot_name
 #   Refer to Standby configuration `slot` setting
+# @param http_proxy
+#   URI for an http(s) proxy, used for pip commands
 class patroni (
 
   # Global Settings
@@ -400,6 +402,7 @@ class patroni (
   Enum['running', 'stopped'] $service_ensure = 'running',
   Boolean $service_enable = true,
   Optional[String[1]] $custom_pip_provider = undef,
+  Optional[Stdlib::HTTPUrl] $http_proxy = undef,
 ) {
   if $manage_postgresql {
     class { 'postgresql::globals':
@@ -460,6 +463,11 @@ class patroni (
   $_pgsql_bin_dir = pick($pgsql_bin_dir, $default_bin_dir)
 
   if $install_method == 'pip' {
+    $env_params = if $http_proxy {
+      ["http_proxy=${http_proxy}", "https_proxy=${http_proxy}"]
+    } else {
+      []
+    }
     if $manage_python {
       class { 'python':
         version             => $python_class_version,
@@ -480,7 +488,7 @@ class patroni (
       version     => $python_venv_version,
       venv_dir    => $install_dir,
       systempkgs  => true,
-      environment => ["PIP_PREFIX=${install_dir}"],
+      environment => ["PIP_PREFIX=${install_dir}"] + $env_params,
       require     => Exec['patroni-mkdir-install_dir'],
     }
 
@@ -492,7 +500,7 @@ class patroni (
 
     python::pip { 'patroni':
       ensure       => $version,
-      environment  => ["PIP_PREFIX=${install_dir}"],
+      environment  => ["PIP_PREFIX=${install_dir}"] + $env_params,
       pip_provider => $custom_pip_provider,
       virtualenv   => $virtualenv,
       before       => File['patroni_config'],
@@ -502,7 +510,7 @@ class patroni (
       'before'       => Python::Pip['patroni'],
       'pip_provider' => $custom_pip_provider,
       'virtualenv'   => $virtualenv,
-      'environment'  => ["PIP_PREFIX=${install_dir}"],
+      'environment'  => ["PIP_PREFIX=${install_dir}"] + $env_params,
     }
 
     python::pip { 'psycopg2': * => $dependency_params }
