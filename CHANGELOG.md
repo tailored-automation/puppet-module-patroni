@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v3.0.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v3.0.0) (2025-02-19)
+
+[Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v2.1.0...v3.0.0)
+
+### Changed
+
+- Drop workaround for Puppet 5 and older [\#52](https://github.com/tailored-automation/puppet-module-patroni/pull/52) ([bastelfreak](https://github.com/bastelfreak))
+
+### Added
+
+- update ensure\_packages\(\)-\>stdlib::ensure\_packages\(\) [\#54](https://github.com/tailored-automation/puppet-module-patroni/pull/54) ([bastelfreak](https://github.com/bastelfreak))
+- Add support for Debian 12 [\#53](https://github.com/tailored-automation/puppet-module-patroni/pull/53) ([bastelfreak](https://github.com/bastelfreak))
+- puppet/systemd: Allow 7.x & 8.x [\#51](https://github.com/tailored-automation/puppet-module-patroni/pull/51) ([bastelfreak](https://github.com/bastelfreak))
+- Add http\_proxy support for pip commands [\#49](https://github.com/tailored-automation/puppet-module-patroni/pull/49) ([bastelfreak](https://github.com/bastelfreak))
+- Fix improper parsing of pgsql\_replica\_method [\#38](https://github.com/tailored-automation/puppet-module-patroni/pull/38) ([jsosic](https://github.com/jsosic))
+
+### Merged pull requests:
+
+- puppet/systemd: Allow 7.x & 8.x [\#55](https://github.com/tailored-automation/puppet-module-patroni/pull/55) ([ghoneycutt](https://github.com/ghoneycutt))
+
 ## [v2.1.0](https://github.com/tailored-automation/puppet-module-patroni/tree/v2.1.0) (2025-01-04)
 
 [Full Changelog](https://github.com/tailored-automation/puppet-module-patroni/compare/v2.0.1...v2.1.0)

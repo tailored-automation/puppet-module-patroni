@@ -1,6 +1,6 @@
 {
   "name": "tailoredautomation-patroni",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "author": "tailoredautomation",
   "summary": "Install and manages Patroni for high-availability PostgreSQL",
   "license": "Apache-2.0",

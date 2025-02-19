@@ -404,7 +404,7 @@ Default value: `undef`
 
 ##### <a name="-patroni--pgsql_connect_address"></a>`pgsql_connect_address`
 
-Data type: `String`
+Data type: `Variant[Undef,String]`
 
 Refer to PostgreSQL configuration settings `connect_address` setting
 
