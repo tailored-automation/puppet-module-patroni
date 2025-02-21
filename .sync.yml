@@ -1,4 +1,7 @@
 ---
+.github/workflows/ci.yml:
+  with:
+    beaker_hosts: 'patronia:patronia,default.;patronib:patronib.'
 .puppet-lint.rc:
   enabled_lint_checks:
     - parameter_documentation
