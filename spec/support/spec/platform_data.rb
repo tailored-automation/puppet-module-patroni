@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def platform_data(p, d)
   data = {
     'RedHat-8' => {
