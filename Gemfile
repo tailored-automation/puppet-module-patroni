@@ -1,67 +1,32 @@
+# Managed by modulesync - DO NOT EDIT
+# https://voxpupuli.org/docs/updating-files-managed-with-modulesync/
+
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
-def location_for(place_or_version, fake_version = nil)
-  git_url_regex = %r{\A(?<url>(https?|git)[:@][^#]*)(#(?<branch>.*))?}
-  file_url_regex = %r{\Afile:\/\/(?<path>.*)}
-
-  if place_or_version && (git_url = place_or_version.match(git_url_regex))
-    [fake_version, { git: git_url[:url], branch: git_url[:branch], require: false }].compact
-  elsif place_or_version && (file_url = place_or_version.match(file_url_regex))
-    ['>= 0', { path: File.expand_path(file_url[:path]), require: false }]
-  else
-    [place_or_version, { require: false }]
-  end
-end
-
-ruby_version_segments = Gem::Version.new(RUBY_VERSION.dup).segments
-minor_version = ruby_version_segments[0..1].join('.')
-
-group :development do
-  gem 'voxpupuli-test', '~> 9.2',   :require => false
+group :test do
+  gem 'voxpupuli-test', '~> 9.0',   :require => false
+  gem 'coveralls',                  :require => false
+  gem 'simplecov-console',          :require => false
   gem 'puppet_metadata', '~> 4.0',  :require => false
 end
 
+group :development do
+  gem 'guard-rake',               :require => false
+  gem 'overcommit', '>= 0.39.1',  :require => false
+end
+
 group :system_tests do
-  gem "beaker", *location_for(ENV['BEAKER_VERSION'] || '~> 4.29')
-  gem "beaker-abs", *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')
-  gem "beaker-pe",                                                               require: false
-  gem "beaker-hostgenerator"
-  gem "beaker-rspec"
-  gem "beaker-docker"
-  gem "beaker-puppet"
-  gem "beaker-puppet_install_helper",                                            require: false
-  gem "beaker-module_install_helper",                                            require: false
-  gem 'puppetlabs_spec_helper'
+  gem 'voxpupuli-acceptance', '~> 3.0',  :require => false
 end
 
-puppet_version = ENV['PUPPET_GEM_VERSION']
-facter_version = ENV['FACTER_GEM_VERSION']
-hiera_version = ENV['HIERA_GEM_VERSION']
-
-gems = {}
-
-gems['rake'] = [require: false]
-gems['puppet'] = location_for(puppet_version)
-
-# If facter or hiera versions have been specified via the environment
-# variables
-
-gems['facter'] = location_for(facter_version) if facter_version
-gems['hiera'] = location_for(hiera_version) if hiera_version
-
-gems.each do |gem_name, gem_params|
-  gem gem_name, *gem_params
+group :release do
+  gem 'voxpupuli-release', '~> 3.0',  :require => false
 end
 
-# Evaluate Gemfile.local and ~/.gemfile if they exist
-extra_gemfiles = [
-  "#{__FILE__}.local",
-  File.join(Dir.home, '.gemfile'),
-]
+gem 'rake', :require => false
+gem 'facter', ENV['FACTER_GEM_VERSION'], :require => false, :groups => [:test]
 
-extra_gemfiles.each do |gemfile|
-  if File.file?(gemfile) && File.readable?(gemfile)
-    eval(File.read(gemfile), binding)
-  end
-end
+puppetversion = ENV['PUPPET_GEM_VERSION'] || [">= 7.24", "< 9"]
+gem 'puppet', puppetversion, :require => false, :groups => [:test]
+
 # vim: syntax=ruby
