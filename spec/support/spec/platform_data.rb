@@ -1,16 +1,7 @@
-require 'coveralls'
-Coveralls.wear!
+# frozen_string_literal: true
 
 def platform_data(p, d)
   data = {
-    'RedHat-7' => {
-      postgresql_version: '9.6',
-      data_dir: '/var/lib/pgsql/9.6/data',
-      bin_dir: '/usr/pgsql-9.6/bin',
-      pg_config_link: true,
-      python_class_version: '36',
-      python_venv_version: '3.6',
-    },
     'RedHat-8' => {
       manage_postgresql_repo: false,
       postgres_repo_require: nil,

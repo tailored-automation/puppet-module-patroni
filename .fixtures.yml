@@ -1,30 +1,10 @@
-# This file can be used to install module dependencies for unit testing
-# See https://github.com/puppetlabs/puppetlabs_spec_helper#using-fixtures for details
 ---
 fixtures:
-  forge_modules:
-    stdlib:
-      repo: puppetlabs/stdlib
-      ref: '9.4.1'
-    postgresql:
-      repo: puppetlabs/postgresql
-      ref: '10.0.2'
-    # Needed by Postgresql module
-    apt:
-      repo: puppetlabs/apt
-      ref: '9.1.0'
-    python:
-      repo: puppet/python
-      ref: '7.0.0'
-    # Needed by Python module
-    epel:
-      repo: puppet/epel
-      ref: '5.0.0'
-    systemd:
-      repo: puppet/systemd
-      ref: '8.1.0'
-    yumrepo_core:
-      repo: puppetlabs/yumrepo_core
-      ref: '2.0.0'
-  symlinks:
-    patroni: "#{source_dir}"
+  repositories:
+    stdlib: https://github.com/puppetlabs/puppetlabs-stdlib
+    postgresql: https://github.com/puppetlabs/puppetlabs-postgresql
+    apt: https://github.com/puppetlabs/puppetlabs-apt
+    python: https://github.com/voxpupuli/puppet-python
+    epel: https://github.com/voxpupuli/puppet-epel
+    systemd: https://github.com/voxpupuli/puppet-systemd
+    yumrepo_core: https://github.com/puppetlabs/puppetlabs-yumrepo_core

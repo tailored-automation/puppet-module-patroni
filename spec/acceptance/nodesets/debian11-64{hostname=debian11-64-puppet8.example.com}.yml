@@ -48,4 +48,3 @@ CONFIG:
 ssh:
   password: root
   auth_methods: ["password"]
-
