@@ -17,13 +17,10 @@ ruby_version_segments = Gem::Version.new(RUBY_VERSION.dup).segments
 minor_version = ruby_version_segments[0..1].join('.')
 
 group :development do
-  gem "voxpupuli-test", '~> 9.2',       require: false
-  gem "rubocop-performance", '~> 1.18', require: false
-  gem "github_changelog_generator",     require: false
-  gem "puppet-blacksmith",              require: false
-  gem "puppet-strings",                 require: false
-  gem "coveralls",                      require: false
+  gem 'voxpupuli-test', '~> 6.0',   :require => false
+  gem 'puppet_metadata', '~> 4.0',  :require => false
 end
+
 group :system_tests do
   gem "beaker", *location_for(ENV['BEAKER_VERSION'] || '~> 4.29')
   gem "beaker-abs", *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')
