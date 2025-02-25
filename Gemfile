@@ -17,7 +17,7 @@ ruby_version_segments = Gem::Version.new(RUBY_VERSION.dup).segments
 minor_version = ruby_version_segments[0..1].join('.')
 
 group :development do
-  gem 'voxpupuli-test', '~> 6.0',   :require => false
+  gem 'voxpupuli-test', '~> 9.2',   :require => false
   gem 'puppet_metadata', '~> 4.0',  :require => false
 end
 
@@ -31,6 +31,7 @@ group :system_tests do
   gem "beaker-puppet"
   gem "beaker-puppet_install_helper",                                            require: false
   gem "beaker-module_install_helper",                                            require: false
+  gem 'puppetlabs_spec_helper'
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']
@@ -40,7 +41,6 @@ hiera_version = ENV['HIERA_GEM_VERSION']
 gems = {}
 
 gems['rake'] = [require: false]
-gems['puppetlabs_spec_helper'] = [require: false]
 gems['puppet'] = location_for(puppet_version)
 
 # If facter or hiera versions have been specified via the environment
